@@ -5,16 +5,16 @@ export default function DashboardLayout() {
   const { user, logout } = useAuthStore()
 
   return (
-    <div className="min-h-screen bg-neutral-50">
+    <div className="min-h-screen bg-aibo-cloud">
       {/* Header */}
-      <header className="bg-white shadow">
+      <header className="bg-white shadow-sm border-b border-aibo-line">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-primary">BizPulse</h1>
+          <h1 className="text-2xl font-bold text-aibo-navy font-display">BizPulse</h1>
           <div className="flex items-center gap-4">
-            <span className="text-neutral-700">{user?.nombre}</span>
+            <span className="text-aibo-slate">{user?.nombre}</span>
             <button
               onClick={logout}
-              className="px-4 py-2 bg-error text-white rounded-lg hover:bg-error/90 transition-colors"
+              className="px-4 py-2 bg-aibo-navy text-white rounded-lg hover:bg-aibo-ink transition-colors"
             >
               Cerrar sesión
             </button>

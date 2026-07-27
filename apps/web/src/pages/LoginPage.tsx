@@ -23,42 +23,42 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary to-secondary">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-aibo-blue to-aibo-navy">
       <div className="w-full max-w-md">
         <div className="bg-white rounded-lg shadow-xl p-8">
-          <h1 className="text-3xl font-bold text-center text-neutral-900 mb-2">BizPulse</h1>
-          <p className="text-center text-neutral-600 mb-8">Diagnóstico de Excelencia Empresarial</p>
+          <h1 className="text-3xl font-bold text-center text-aibo-navy mb-2 font-display">BizPulse</h1>
+          <p className="text-center text-aibo-slate mb-8">Diagnóstico de Excelencia Empresarial</p>
 
           {error && (
-            <div className="mb-4 p-4 bg-error/10 border border-error text-error rounded-lg text-sm">
+            <div className="mb-4 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm">
               {error}
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-neutral-700 mb-2">
+              <label className="block text-sm font-medium text-aibo-navy mb-2 font-display">
                 Email
               </label>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none"
+                className="w-full px-4 py-2 border border-aibo-line rounded-lg focus:ring-2 focus:ring-aibo-blue focus:border-transparent outline-none bg-aibo-cloud/30 text-aibo-ink"
                 placeholder="tu@email.com"
                 disabled={loading}
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-neutral-700 mb-2">
+              <label className="block text-sm font-medium text-aibo-navy mb-2 font-display">
                 Contraseña
               </label>
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none"
+                className="w-full px-4 py-2 border border-aibo-line rounded-lg focus:ring-2 focus:ring-aibo-blue focus:border-transparent outline-none bg-aibo-cloud/30 text-aibo-ink"
                 placeholder="••••••••"
                 disabled={loading}
               />
@@ -67,7 +67,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-primary text-white font-semibold py-2 rounded-lg hover:bg-primary/90 disabled:opacity-50 transition-colors"
+              className="w-full bg-aibo-blue text-white font-semibold py-2 rounded-lg hover:bg-aibo-blue-light disabled:opacity-50 transition-colors shadow-lg hover:shadow-xl"
             >
               {loading ? 'Iniciando sesión...' : 'Iniciar sesión'}
             </button>
