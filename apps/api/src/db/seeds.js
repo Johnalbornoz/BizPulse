@@ -1,5 +1,6 @@
 import pool from '../config/database.js'
 import bcryptjs from 'bcryptjs'
+import { seedPreguntas } from './schema.js'
 
 export async function seedData() {
   const client = await pool.connect()
@@ -17,7 +18,7 @@ export async function seedData() {
       'INSERT INTO tenants (nombre, sistema_prompt, estado) VALUES ($1, $2, $3) RETURNING id',
       [
         'BizPulse - Práctica Propia',
-        'Eres un consultor experto en diagnóstico de excelencia empresarial...',
+        'Eres un consultor experto en diagnóstico de excelencia empresarial basado en los 11 pilares...',
         'activo'
       ]
     )
@@ -52,11 +53,14 @@ export async function seedData() {
       )
     }
 
+    client.release()
+
+    // Seed preguntas (without transaction)
+    await seedPreguntas()
+
     console.log('✓ Seed data created successfully')
   } catch (error) {
     console.error('Seed error:', error)
     throw error
-  } finally {
-    client.release()
   }
 }

@@ -1,6 +1,7 @@
 import pool from '../config/database.js'
 import { createTables } from './schema.js'
 import { seedData } from './seeds.js'
+import { seedPreguntas } from './seedPreguntas.js'
 
 export async function initializeDatabase() {
   try {
@@ -15,7 +16,11 @@ export async function initializeDatabase() {
 
     // Seed initial data
     await seedData()
-    console.log('✓ Data seeded')
+
+    // Seed preguntas
+    await seedPreguntas()
+
+    console.log('✓ All data seeded')
   } catch (error) {
     console.error('Database initialization error:', error)
     throw error

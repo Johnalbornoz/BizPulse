@@ -3,6 +3,8 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import { initializeDatabase } from './src/db/init.js'
 import authRoutes from './src/routes/auth.js'
+import empresasRoutes from './src/routes/empresas.js'
+import diagnosticoRoutes from './src/routes/diagnosticos.js'
 import { errorHandler } from './src/middleware/errorHandler.js'
 
 dotenv.config()
@@ -24,6 +26,8 @@ app.get('/health', (req, res) => {
 
 // Routes
 app.use('/auth', authRoutes)
+app.use('/empresas', empresasRoutes)
+app.use('/diagnosticos', diagnosticoRoutes)
 
 // Error handling
 app.use(errorHandler)
