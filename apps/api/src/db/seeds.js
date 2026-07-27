@@ -1,6 +1,6 @@
 import pool from '../config/database.js'
 import bcryptjs from 'bcryptjs'
-import { seedPreguntas } from './schema.js'
+import { seedPreguntas } from './seedPreguntas.js'
 
 export async function seedData() {
   const client = await pool.connect()

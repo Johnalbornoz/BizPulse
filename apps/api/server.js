@@ -1,7 +1,12 @@
 import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
+import { fileURLToPath } from 'url'
+import { dirname, join } from 'path'
 import { initializeDatabase } from './src/db/init.js'
+
+const __dirname = dirname(fileURLToPath(import.meta.url))
+dotenv.config({ path: join(__dirname, '.env') })
 import authRoutes from './src/routes/auth.js'
 import empresasRoutes from './src/routes/empresas.js'
 import diagnosticoRoutes from './src/routes/diagnosticos.js'
