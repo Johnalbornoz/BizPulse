@@ -8,6 +8,7 @@ import DiagnosisFlowPage from './pages/DiagnosisFlowPage'
 import BusinessDiscoveryPage from './pages/BusinessDiscoveryPage'
 import ClassificationPage from './pages/ClassificationPage'
 import FrameworkPage from './pages/FrameworkPage'
+import AssessmentPage from './pages/AssessmentPage'
 import ValidationHITLPage from './pages/ValidationHITLPage'
 import FinancialImpactPage from './pages/FinancialImpactPage'
 import ResultsDashboardPage from './pages/ResultsDashboardPage'
@@ -44,7 +45,7 @@ function App() {
             <Route path="/discovery/:diagnosticoId" element={<BusinessDiscoveryPage />} />
             <Route path="/classification/:diagnosticoId" element={<ClassificationPage />} />
             <Route path="/framework/:diagnosticoId" element={<FrameworkPage />} />
-            <Route path="/assessment/:diagnosticoId" element={<BusinessDiscoveryPage />} />
+            <Route path="/assessment/:diagnosticoId" element={<AssessmentPage />} />
             <Route path="/validation/:diagnosticoId" element={<ValidationHITLPage />} />
             <Route path="/financial/:diagnosticoId" element={<FinancialImpactPage />} />
             <Route path="/roadmap/:diagnosticoId" element={<FinancialImpactPage />} />
