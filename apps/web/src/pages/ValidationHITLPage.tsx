@@ -93,7 +93,7 @@ export default function ValidationHITLPage() {
         },
         body: JSON.stringify({ fase: 6 })
       })
-      navigate(`/diagnosis/${diagnosticoId}`)
+      navigate(`/financial/${diagnosticoId}`)
     } catch (error) {
       alert('Error al guardar validaciones')
     } finally {

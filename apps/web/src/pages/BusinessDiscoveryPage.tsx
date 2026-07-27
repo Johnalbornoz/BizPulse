@@ -132,7 +132,7 @@ export default function BusinessDiscoveryPage() {
         },
         body: JSON.stringify({ fase: 2 })
       })
-      navigate(`/diagnosis/${diagnosticoId}`)
+      navigate(`/classification/${diagnosticoId}`)
     } catch (error) {
       alert('Error al guardar información')
     } finally {

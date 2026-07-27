@@ -52,7 +52,7 @@ export default function FrameworkPage() {
         },
         body: JSON.stringify({ fase: 4 })
       })
-      navigate(`/diagnosis/${diagnosticoId}`)
+      navigate(`/assessment/${diagnosticoId}`)
     } catch (error) {
       alert('Error al guardar framework')
     } finally {

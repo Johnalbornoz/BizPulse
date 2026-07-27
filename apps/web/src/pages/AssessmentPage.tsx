@@ -85,7 +85,7 @@ export default function AssessmentPage() {
         },
         body: JSON.stringify({ fase: 5 })
       })
-      navigate(`/diagnosis/${diagnosticoId}`)
+      navigate(`/validation/${diagnosticoId}`)
     } catch (error) {
       alert('Error al guardar respuestas')
     } finally {

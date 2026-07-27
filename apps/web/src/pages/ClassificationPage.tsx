@@ -50,7 +50,7 @@ export default function ClassificationPage() {
         },
         body: JSON.stringify({ fase: 3 })
       })
-      navigate(`/diagnosis/${diagnosticoId}`)
+      navigate(`/framework/${diagnosticoId}`)
     } catch (error) {
       alert('Error al guardar clasificación')
     } finally {
@@ -162,7 +162,7 @@ export default function ClassificationPage() {
       {/* Navigation */}
       <div className="flex gap-4">
         <button
-          onClick={() => navigate(`/diagnosis/${diagnosticoId}`)}
+          onClick={() => navigate(`/framework/${diagnosticoId}`)}
           className="flex-1 bg-aibo-mist text-aibo-navy font-semibold py-3 rounded-lg hover:bg-aibo-line transition-colors"
         >
           ← Atrás

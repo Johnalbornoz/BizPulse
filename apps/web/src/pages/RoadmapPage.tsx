@@ -65,7 +65,7 @@ export default function RoadmapPage() {
         },
         body: JSON.stringify({ fase: 8 })
       })
-      navigate(`/diagnosis/${diagnosticoId}`)
+      navigate(`/proposal/${diagnosticoId}`)
     } catch (error) {
       alert('Error al guardar roadmap')
     } finally {
