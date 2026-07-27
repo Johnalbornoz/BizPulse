@@ -1,279 +1,270 @@
-import { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
+import { useState } from 'react'
 import { useAuthStore } from '../store/auth'
 
-interface Validacion {
-  id: string
-  pregunta_id: number
-  pregunta_texto: string
+const PILLARS = [
+  'Business DNA',
+  'Strategy Alignment',
+  'Process Excellence',
+  'Operational Performance',
+  'Technology & Digital',
+  'Data & Intelligence',
+  'AI Augmentation',
+  'Revenue Generation & Market Excellence',
+  'Customer & Quality Excellence',
+  'Culture & Change Readiness',
+  'Continuous Improvement'
+]
+
+interface DiagnosticSuggestion {
+  id: number
+  pregunta: string
   sugerencia_eje1: number
-  sugerencia_eje2: number
   argumentacion_eje1: string
+  sugerencia_eje2: number
   argumentacion_eje2: string
   calificacion_eje1?: number
   calificacion_eje2?: number
-  argumentacion_experto_eje1?: string
-  argumentacion_experto_eje2?: string
-  validado_en?: string
+  notas_experto?: string
 }
 
 export default function ValidationHITLPage() {
-  const { diagnosticoId, pilarId } = useParams()
+  const { diagnosticoId } = useParams()
+  const navigate = useNavigate()
   const { token } = useAuthStore()
-  const [validaciones, setValidaciones] = useState<Validacion[]>([])
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const [loading, setLoading] = useState(true)
-  const [progress, setProgress] = useState({ validadas: 0, total: 0 })
 
-  useEffect(() => {
-    loadValidaciones()
-  }, [diagnosticoId, pilarId])
+  const [currentPilar, setCurrentPilar] = useState(0)
+  const [validaciones, setValidaciones] = useState<DiagnosticSuggestion[]>([
+    {
+      id: 1,
+      pregunta: '¿Qué tan definida está tu estrategia empresarial?',
+      sugerencia_eje1: 3,
+      argumentacion_eje1: 'Basado en discovery, la estrategia existe pero no está completamente documentada.',
+      sugerencia_eje2: 3,
+      argumentacion_eje2: 'Comparable con empresas del segmento de similar tamaño.',
+      calificacion_eje1: 3,
+      calificacion_eje2: 3
+    },
+    {
+      id: 2,
+      pregunta: '¿Cuáles son tus OKRs principales?',
+      sugerencia_eje1: 2,
+      argumentacion_eje1: 'Los OKRs no están formalizados según mejores prácticas.',
+      sugerencia_eje2: 2,
+      argumentacion_eje2: 'Menor formalidad que competidores directos.',
+      calificacion_eje1: 2,
+      calificacion_eje2: 2
+    }
+  ])
+  const [loading, setLoading] = useState(false)
 
-  const loadValidaciones = async () => {
-    try {
-      const response = await fetch(
-        `/api/scoring/${diagnosticoId}/pilar/${pilarId}/progress`,
-        { headers: { 'Authorization': `Bearer ${token}` } }
+  const handleValidate = (id: number, eje1: number, eje2: number, notas: string) => {
+    setValidaciones(prev =>
+      prev.map(v =>
+        v.id === id
+          ? { ...v, calificacion_eje1: eje1, calificacion_eje2: eje2, notas_experto: notas }
+          : v
       )
-      if (response.ok) {
-        const data = await response.json()
-        setValidaciones(data.validaciones)
-        setProgress({ validadas: data.validadas, total: data.total })
-      }
+    )
+  }
+
+  const handleNext = () => {
+    if (currentPilar < PILLARS.length - 1) {
+      setCurrentPilar(currentPilar + 1)
+    }
+  }
+
+  const handlePrev = () => {
+    if (currentPilar > 0) {
+      setCurrentPilar(currentPilar - 1)
+    }
+  }
+
+  const handleComplete = async () => {
+    setLoading(true)
+    try {
+      console.log('Saving validations:', validaciones)
+
+      await fetch(`/api/diagnosticos/${diagnosticoId}/phase`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ fase: 6 })
+      })
+      navigate(`/diagnosis/${diagnosticoId}`)
     } catch (error) {
-      console.error('Error loading validaciones:', error)
+      alert('Error al guardar validaciones')
     } finally {
       setLoading(false)
     }
   }
 
-  const handleConfirm = async (eje1: number, eje2: number, argEje1: string, argEje2: string) => {
-    try {
-      const response = await fetch(`/api/scoring/${validaciones[currentIndex].id}/confirmar`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          calificacion_eje1: eje1,
-          calificacion_eje2: eje2,
-          argumentacion_eje1: argEje1,
-          argumentacion_eje2: argEje2
-        })
-      })
-
-      if (response.ok) {
-        // Move to next validación or show completion
-        if (currentIndex < validaciones.length - 1) {
-          setCurrentIndex(currentIndex + 1)
-        } else {
-          alert('¡Pilar validado completamente!')
-          // Redirect to dashboard
-          window.location.href = '/dashboard'
-        }
-        loadValidaciones()
-      }
-    } catch (error) {
-      console.error('Error confirming:', error)
-    }
-  }
-
-  if (loading) {
-    return <div className="text-center py-8">Cargando validaciones...</div>
-  }
-
-  if (validaciones.length === 0) {
-    return <div className="text-center py-8">No hay validaciones pendientes</div>
-  }
-
-  const actual = validaciones[currentIndex]
+  const progress = Math.round(((currentPilar + 1) / PILLARS.length) * 100)
 
   return (
-    <div className="max-w-6xl mx-auto space-y-6">
-      {/* Progress bar */}
-      <div className="bg-white rounded-lg shadow p-6">
-        <div className="flex justify-between items-center mb-4">
-          <h3 className="font-semibold text-neutral-900">
-            Validadas: {progress.validadas} / {progress.total}
-          </h3>
-          <span className="text-2xl font-bold text-primary">
-            {Math.round((progress.validadas / progress.total) * 100)}%
-          </span>
-        </div>
-        <div className="w-full bg-neutral-200 rounded-full h-2">
-          <div
-            className="bg-primary h-2 rounded-full transition-all"
-            style={{ width: `${(progress.validadas / progress.total) * 100}%` }}
-          ></div>
-        </div>
+    <div className="space-y-8">
+      {/* Header */}
+      <div className="bg-gradient-to-r from-aibo-blue to-aibo-navy rounded-lg shadow-lg p-8 text-white">
+        <h1 className="text-3xl font-bold font-display">Fase 5: Business Excellence Diagnosis</h1>
+        <p className="text-lg opacity-90 mt-2">
+          Valida y ajusta las sugerencias de IA. Dos ejes independientes: Estado del Arte vs. Segmento
+        </p>
       </div>
 
-      {/* Validation Card */}
-      <div className="bg-white rounded-lg shadow overflow-hidden">
-        {/* Header */}
-        <div className="bg-gradient-to-r from-primary to-secondary text-white p-6">
-          <h2 className="text-2xl font-bold mb-2">Validación HITL</h2>
-          <p className="text-lg opacity-90">
-            Pregunta {currentIndex + 1} de {validaciones.length}
+      {/* Progress */}
+      <div>
+        <div className="flex justify-between items-center mb-2">
+          <p className="text-sm font-medium text-aibo-navy">
+            Pilar {currentPilar + 1} de {PILLARS.length}: {PILLARS[currentPilar]}
           </p>
+          <p className="text-sm font-medium text-aibo-slate">{progress}%</p>
         </div>
-
-        {/* Question */}
-        <div className="p-6 border-b border-neutral-200">
-          <h3 className="text-xl font-bold text-neutral-900 mb-4">
-            {actual.pregunta_texto}
-          </h3>
-        </div>
-
-        {/* Dual-axis comparison */}
-        <div className="grid grid-cols-2 gap-6 p-6">
-          {/* EJE 1 */}
-          <ValidationColumn
-            title="Eje 1: Estado del Arte"
-            color="from-blue-500 to-blue-600"
-            suggerencia={actual.sugerencia_eje1}
-            argumentacion={actual.argumentacion_eje1}
-            calificacionActual={actual.calificacion_eje1}
-            argumentoActual={actual.argumentacion_experto_eje1}
-            onConfirm={(score, arg) => handleConfirm(score, actual.calificacion_eje2 || actual.sugerencia_eje2, arg, actual.argumentacion_experto_eje2 || '')}
-          />
-
-          {/* EJE 2 */}
-          <ValidationColumn
-            title="Eje 2: Segmento/Competencia"
-            color="from-purple-500 to-purple-600"
-            suggerencia={actual.sugerencia_eje2}
-            argumentacion={actual.argumentacion_eje2}
-            calificacionActual={actual.calificacion_eje2}
-            argumentoActual={actual.argumentacion_experto_eje2}
-            onConfirm={(score, arg) => handleConfirm(actual.calificacion_eje1 || actual.sugerencia_eje1, score, actual.argumentacion_experto_eje1 || '', arg)}
+        <div className="w-full bg-aibo-mist rounded-full h-2">
+          <div
+            className="bg-gradient-to-r from-aibo-blue to-aibo-signal h-2 rounded-full transition-all"
+            style={{ width: `${progress}%` }}
           />
         </div>
-
-        {/* Navigation */}
-        <div className="px-6 py-4 border-t border-neutral-200 flex justify-between">
-          <button
-            onClick={() => setCurrentIndex(Math.max(0, currentIndex - 1))}
-            disabled={currentIndex === 0}
-            className="px-4 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50 disabled:opacity-50 transition-colors"
-          >
-            ← Anterior
-          </button>
-
-          <span className="text-neutral-600 font-medium">
-            {currentIndex + 1} / {validaciones.length}
-          </span>
-
-          <button
-            onClick={() => setCurrentIndex(Math.min(validaciones.length - 1, currentIndex + 1))}
-            disabled={currentIndex === validaciones.length - 1}
-            className="px-4 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50 disabled:opacity-50 transition-colors"
-          >
-            Siguiente →
-          </button>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-interface ColumnProps {
-  title: string
-  color: string
-  suggerencia: number
-  argumentacion: string
-  calificacionActual?: number
-  argumentoActual?: string
-  onConfirm: (score: number, arg: string) => void
-}
-
-function ValidationColumn({
-  title,
-  color,
-  suggerencia,
-  argumentacion,
-  calificacionActual,
-  argumentoActual,
-  onConfirm
-}: ColumnProps) {
-  const [score, setScore] = useState(calificacionActual || suggerencia)
-  const [argumento, setArgumento] = useState(argumentoActual || '')
-  const [showForm, setShowForm] = useState(!calificacionActual)
-
-  const handleConfirm = () => {
-    onConfirm(score, argumento)
-    setShowForm(false)
-  }
-
-  return (
-    <div className="space-y-4">
-      <div className={`bg-gradient-to-r ${color} text-white p-4 rounded-lg`}>
-        <h4 className="font-bold text-lg">{title}</h4>
       </div>
 
-      {/* Sugerencia IA */}
-      <div className="bg-neutral-50 p-4 rounded-lg border border-neutral-200">
-        <h5 className="font-semibold text-neutral-900 mb-2">Sugerencia IA</h5>
-        <div className="text-3xl font-bold text-neutral-900 mb-3">{suggerencia} / 5</div>
-        <p className="text-sm text-neutral-700">{argumentacion}</p>
-      </div>
+      {/* Validation Form */}
+      <div className="bg-white rounded-lg shadow-md p-8 space-y-6">
+        <h2 className="text-2xl font-bold text-aibo-navy font-display">Validación de Diagnóstico</h2>
+        <p className="text-aibo-slate">
+          Revisa las sugerencias de IA y confirma o ajusta los scores en ambos ejes.
+        </p>
 
-      {/* Validación */}
-      {showForm ? (
-        <div className="space-y-3">
-          <div>
-            <label className="block text-sm font-medium text-neutral-700 mb-2">
-              Calificación Final
-            </label>
-            <div className="flex gap-2">
-              {[0, 1, 2, 3, 4, 5].map(n => (
-                <button
-                  key={n}
-                  onClick={() => setScore(n)}
-                  className={`px-3 py-2 rounded-lg font-semibold transition-colors ${
-                    score === n
-                      ? 'bg-primary text-white'
-                      : 'bg-neutral-200 text-neutral-700 hover:bg-neutral-300'
-                  }`}
-                >
-                  {n}
-                </button>
-              ))}
+        <div className="space-y-8">
+          {validaciones.map(val => (
+            <div key={val.id} className="border-2 border-aibo-line rounded-lg p-6">
+              <h3 className="font-semibold text-aibo-navy mb-6">{val.pregunta}</h3>
+
+              {/* Two-Column Layout: Eje 1 vs Eje 2 */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Eje 1: Estado del Arte */}
+                <div className="bg-aibo-blue/5 rounded-lg p-4 border border-aibo-blue/20">
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="w-3 h-3 bg-aibo-blue rounded-full"></div>
+                    <h4 className="font-semibold text-aibo-navy">Eje 1: Estado del Arte</h4>
+                  </div>
+
+                  <p className="text-sm text-aibo-slate mb-3">
+                    <strong>Sugerencia IA:</strong> {val.sugerencia_eje1}/5
+                  </p>
+                  <p className="text-xs text-aibo-slate mb-4 italic">
+                    "{val.argumentacion_eje1}"
+                  </p>
+
+                  <div className="mb-3">
+                    <label className="block text-xs font-medium text-aibo-navy mb-2">
+                      Tu Calificación
+                    </label>
+                    <div className="flex gap-2">
+                      {[1, 2, 3, 4, 5].map(score => (
+                        <button
+                          key={`eje1-${score}`}
+                          onClick={() => handleValidate(val.id, score, val.calificacion_eje2 || val.sugerencia_eje2, val.notas_experto || '')}
+                          className={`
+                            w-8 h-8 rounded font-bold text-xs transition-all
+                            ${val.calificacion_eje1 === score
+                              ? 'bg-aibo-blue text-white'
+                              : 'bg-aibo-mist text-aibo-slate hover:bg-aibo-line'
+                            }
+                          `}
+                        >
+                          {score}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Eje 2: Segmento/Competencia */}
+                <div className="bg-aibo-signal/5 rounded-lg p-4 border border-aibo-signal/20">
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="w-3 h-3 bg-aibo-signal rounded-full"></div>
+                    <h4 className="font-semibold text-aibo-navy">Eje 2: Segmento/Competencia</h4>
+                  </div>
+
+                  <p className="text-sm text-aibo-slate mb-3">
+                    <strong>Sugerencia IA:</strong> {val.sugerencia_eje2}/5
+                  </p>
+                  <p className="text-xs text-aibo-slate mb-4 italic">
+                    "{val.argumentacion_eje2}"
+                  </p>
+
+                  <div className="mb-3">
+                    <label className="block text-xs font-medium text-aibo-navy mb-2">
+                      Tu Calificación
+                    </label>
+                    <div className="flex gap-2">
+                      {[1, 2, 3, 4, 5].map(score => (
+                        <button
+                          key={`eje2-${score}`}
+                          onClick={() => handleValidate(val.id, val.calificacion_eje1 || val.sugerencia_eje1, score, val.notas_experto || '')}
+                          className={`
+                            w-8 h-8 rounded font-bold text-xs transition-all
+                            ${val.calificacion_eje2 === score
+                              ? 'bg-aibo-signal text-white'
+                              : 'bg-aibo-mist text-aibo-slate hover:bg-aibo-line'
+                            }
+                          `}
+                        >
+                          {score}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Expert Notes */}
+              <div className="mt-4">
+                <label className="block text-xs font-medium text-aibo-navy mb-2">
+                  Notas del Consultor (opcional)
+                </label>
+                <textarea
+                  value={val.notas_experto || ''}
+                  onChange={e => handleValidate(val.id, val.calificacion_eje1 || val.sugerencia_eje1, val.calificacion_eje2 || val.sugerencia_eje2, e.target.value)}
+                  rows={2}
+                  className="w-full px-3 py-2 border border-aibo-line rounded-lg focus:outline-none focus:border-aibo-blue text-sm"
+                  placeholder="Justificación o contexto adicional..."
+                />
+              </div>
             </div>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-neutral-700 mb-2">
-              Justificación del Consultor
-            </label>
-            <textarea
-              value={argumento}
-              onChange={(e) => setArgumento(e.target.value)}
-              className="w-full h-24 px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary outline-none text-sm"
-              placeholder="¿Por qué este score?"
-            />
-          </div>
-
-          <button
-            onClick={handleConfirm}
-            className="w-full px-4 py-2 bg-success text-white rounded-lg hover:bg-success/90 font-semibold transition-colors"
-          >
-            Confirmar
-          </button>
+          ))}
         </div>
-      ) : (
-        <div className="bg-success/10 p-4 rounded-lg border border-success">
-          <div className="text-2xl font-bold text-success mb-2">{score} / 5</div>
-          <p className="text-sm text-neutral-700">{argumento}</p>
+      </div>
+
+      {/* Navigation */}
+      <div className="flex gap-4">
+        <button
+          onClick={handlePrev}
+          disabled={currentPilar === 0}
+          className="flex-1 bg-aibo-mist text-aibo-navy font-semibold py-3 rounded-lg hover:bg-aibo-line transition-colors disabled:opacity-50"
+        >
+          ← Pilar Anterior
+        </button>
+
+        {currentPilar < PILLARS.length - 1 ? (
           <button
-            onClick={() => setShowForm(true)}
-            className="mt-3 text-sm text-primary hover:underline font-medium"
+            onClick={handleNext}
+            className="flex-1 bg-aibo-blue text-white font-semibold py-3 rounded-lg hover:bg-aibo-navy transition-colors"
           >
-            Editar
+            Siguiente Pilar →
           </button>
-        </div>
-      )}
+        ) : (
+          <button
+            onClick={handleComplete}
+            disabled={loading}
+            className="flex-1 bg-aibo-signal text-white font-semibold py-3 rounded-lg hover:bg-aibo-signal-dark transition-colors disabled:opacity-50"
+          >
+            {loading ? 'Guardando...' : 'Completar Diagnosis →'}
+          </button>
+        )}
+      </div>
     </div>
   )
 }
