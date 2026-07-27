@@ -1,8 +1,11 @@
 import * as diagnosticoModel from '../models/diagnostico.js'
 import * as empresaModel from '../models/empresa.js'
 import * as respuestasModel from '../models/respuestas.js'
+import * as pilarModel from '../models/pilar.js'
 import { generateProposal } from '../services/proposalEngine.js'
+import { generateReportWord } from '../services/reportGenerator.js'
 import pool from '../config/database.js'
+import { createReadStream } from 'fs'
 
 export async function generateProposalDraft(req, res, next) {
   try {
@@ -150,16 +153,55 @@ export async function generateReportWord(req, res, next) {
       'SELECT * FROM roadmap_items WHERE diagnostico_id = $1 ORDER BY prioridad',
       [diagnosticoId]
     )
+    const roadmapItems = roadmapResult.rows
 
-    // TODO: Generate Word document using docx library
-    // For now, return a placeholder
+    // Calculate aggregated data
+    const pilares = await pilarModel.getPilares()
+    const pilaresWithData = await Promise.all(
+      pilares.map(async (pilar) => {
+        const pilarValidaciones = validaciones.filter(v => v.pilar_id === pilar.id)
+        const eje1 = pilarValidaciones.length > 0
+          ? Math.round((pilarValidaciones.reduce((sum, v) => sum + (v.calificacion_final_eje1 || 0), 0) / pilarValidaciones.length) * 10) / 10
+          : 0
 
-    res.json({
-      diagnostico_id: diagnosticoId,
-      empresa: empresa.nombre,
-      fecha_generacion: new Date().toISOString(),
-      mensaje: 'Reporte Word será generado en próxima fase'
-    })
+        const eje2 = pilarValidaciones.length > 0
+          ? Math.round((pilarValidaciones.reduce((sum, v) => sum + (v.calificacion_final_eje2 || 0), 0) / pilarValidaciones.length) * 10) / 10
+          : 0
+
+        const impacto = pilarValidaciones
+          .filter(v => v.impacto_financiero_eje1)
+          .reduce((sum, v) => sum + (v.impacto_financiero_eje1?.impacto_usd_estimado || 0), 0)
+
+        return { nombre: pilar.nombre, eje1, eje2, impacto }
+      })
+    )
+
+    // Calculate financial summary
+    const totalImpacto = pilaresWithData.reduce((sum, p) => sum + p.impacto, 0)
+    const excellenceIndex = pilaresWithData.reduce((sum, p) => sum + p.eje1, 0) / pilaresWithData.length
+
+    // Generate Word document
+    const { filepath, filename } = await generateReportWord(
+      empresa,
+      { excellence_index: excellenceIndex },
+      pilaresWithData,
+      {
+        total_impacto_usd: totalImpacto,
+        roi_porcentaje: empresa.facturacion_usd > 0 ? Math.round((totalImpacto / empresa.facturacion_usd) * 100) : 0,
+        cantidad_brechas: validaciones.filter(v => v.calificacion_final_eje1).length
+      },
+      roadmapItems
+    )
+
+    // Save report reference in BD
+    await pool.query(
+      `INSERT INTO reportes_finales (diagnostico_id, tipo, url_generada, contenido_json, generada_en)
+       VALUES ($1, $2, $3, $4, NOW())`,
+      [diagnosticoId, 'docx', filepath, JSON.stringify({ filename })]
+    )
+
+    // Send file
+    res.download(filepath, filename)
   } catch (error) {
     next(error)
   }
