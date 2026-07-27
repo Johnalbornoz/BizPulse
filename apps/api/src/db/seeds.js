@@ -31,6 +31,12 @@ export async function seedData() {
       ['admin@bizpulse.local', passwordHash, 'Administrador', 'SuperAdmin', tenantId, 'activo']
     )
 
+    // Create test empresa
+    await client.query(
+      'INSERT INTO empresas (tenant_id, nombre, pais, industria, subindustria, tamaño, empleados, facturacion_usd) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
+      [tenantId, 'Empresa de Prueba', 'México', 'BPO', 'Customer Service', 'SMB', 150, 2500000]
+    )
+
     // Create 11 pilares
     const pilares = [
       'Business DNA',

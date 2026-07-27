@@ -19,11 +19,15 @@ export default function DashboardPage() {
 
   const loadDiagnosticos = async () => {
     try {
+      const currentToken = localStorage.getItem('token')
+      console.log('Token:', currentToken ? 'present' : 'missing')
       const response = await fetch('/api/diagnosticos', {
-        headers: { 'Authorization': `Bearer ${token}` }
+        headers: { 'Authorization': `Bearer ${currentToken}` }
       })
       if (response.ok) {
         setDiagnosticos(await response.json())
+      } else {
+        console.error('Error:', response.status, await response.text())
       }
     } catch (error) {
       console.error('Error loading diagnosticos:', error)
@@ -44,7 +48,7 @@ export default function DashboardPage() {
 
       if (response.ok) {
         const diagnostico = await response.json()
-        window.location.href = `/discovery/${diagnostico.id}`
+        window.location.href = `/diagnosis/${diagnostico.id}`
       }
     } catch (error) {
       console.error('Error creating diagnostico:', error)

@@ -17,5 +17,6 @@ router.post('/:diagnosticoId/documentos', diagnosticoController.addDocumento)
 router.post('/:diagnosticoId/entrevistas', diagnosticoController.addEntrevista)
 router.post('/:diagnosticoId/classify', diagnosticoController.classifyDiagnostico)
 router.post('/:diagnosticoId/framework', diagnosticoController.selectFramework)
+router.put('/:diagnosticoId/phase', diagnosticoController.updatePhase)
 
 export default router

@@ -1,8 +1,15 @@
 import { OpenAI } from 'openai'
 
-const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
-})
+let client = null
+
+function getClient() {
+  if (!client) {
+    client = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY
+    })
+  }
+  return client
+}
 
 const classificationSchema = {
   type: 'object',
@@ -49,7 +56,7 @@ ${discoveryContent}
 Proporciona una clasificación profesional y estructurada.
     `.trim()
 
-    const response = await client.beta.messages.create({
+    const response = await getClient().beta.messages.create({
       model: process.env.OPENAI_MODEL || 'gpt-4o',
       max_tokens: 1024,
       messages: [

@@ -133,7 +133,7 @@ export async function updateProposal(req, res, next) {
   }
 }
 
-export async function generateReportWord(req, res, next) {
+export async function downloadReportWord(req, res, next) {
   try {
     const { diagnosticoId } = req.params
     const tenantId = req.user.tenantId

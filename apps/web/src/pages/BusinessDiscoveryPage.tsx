@@ -1,284 +1,673 @@
+import { useParams, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { useAuthStore } from '../store/auth'
 
+interface DiscoveryData {
+  // Empresa
+  nombre: string
+  pais: string
+  tamaño: string
+  empleados: number
+  facturacion_usd: number
+  cobertura: string
+
+  // Estrategia
+  mision: string
+  vision: string
+  proposito: string
+  objetivos_estrategicos: string
+  okrs: string
+  cultura: string
+  valores: string
+  liderazgo: string
+  innovacion: string
+  colaboracion: string
+  gestion_cambio: string
+
+  // Modelo de Negocio
+  industria: string
+  segmento: string
+  subindustria: string
+  tipo_empresa: string
+  tipo_operacion: string
+  oferta: string
+  propuesta_valor: string
+  clientes: string
+  canal_adquisicion: string
+  crm_quality: string
+  metricas_comerciales: string
+
+  // Tecnología
+  tiene_crm: boolean
+  crm_tipo: string
+  tiene_erp: boolean
+  erp_tipo: string
+  tiene_work_management: boolean
+  tiene_bi: boolean
+  tiene_ia: boolean
+  tiene_automatizacion: boolean
+  automatizacion_desc: string
+}
+
+const INITIAL_DATA: DiscoveryData = {
+  nombre: '',
+  pais: '',
+  tamaño: 'SMB',
+  empleados: 0,
+  facturacion_usd: 0,
+  cobertura: '',
+  mision: '',
+  vision: '',
+  proposito: '',
+  objetivos_estrategicos: '',
+  okrs: '',
+  cultura: '',
+  valores: '',
+  liderazgo: '',
+  innovacion: '',
+  colaboracion: '',
+  gestion_cambio: '',
+  industria: '',
+  segmento: '',
+  subindustria: '',
+  tipo_empresa: '',
+  tipo_operacion: '',
+  oferta: '',
+  propuesta_valor: '',
+  clientes: '',
+  canal_adquisicion: '',
+  crm_quality: '',
+  metricas_comerciales: '',
+  tiene_crm: false,
+  crm_tipo: '',
+  tiene_erp: false,
+  erp_tipo: '',
+  tiene_work_management: false,
+  tiene_bi: false,
+  tiene_ia: false,
+  tiene_automatizacion: false,
+  automatizacion_desc: ''
+}
+
+const STEPS = [
+  { number: 1, title: 'Datos de Empresa', icon: '🏢' },
+  { number: 2, title: 'Estrategia & Cultura', icon: '🎯' },
+  { number: 3, title: 'Modelo de Negocio', icon: '💼' },
+  { number: 4, title: 'Tecnología', icon: '⚙️' }
+]
+
 export default function BusinessDiscoveryPage() {
+  const { diagnosticoId } = useParams()
+  const navigate = useNavigate()
+  const { token } = useAuthStore()
+
   const [step, setStep] = useState(1)
-  const [empresaData, setEmpresaData] = useState({
-    nombre: '',
-    pais: '',
-    industria: '',
-    tamaño: '',
-    empleados: '',
-    facturacion_usd: ''
-  })
-  const [documentos, setDocumentos] = useState([])
-  const [entrevista, setEntrevista] = useState('')
+  const [data, setData] = useState<DiscoveryData>(INITIAL_DATA)
   const [loading, setLoading] = useState(false)
 
-  const handleEmpresaChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target
-    setEmpresaData(prev => ({ ...prev, [name]: value }))
+  const handleChange = (field: keyof DiscoveryData, value: any) => {
+    setData(prev => ({ ...prev, [field]: value }))
   }
 
-  const handleDocumentoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files
-    if (files) {
-      Array.from(files).forEach(file => {
-        setDocumentos(prev => [...prev, { nombre: file.name, archivo: file }])
-      })
-    }
+  const handleNext = () => {
+    if (step < 4) setStep(step + 1)
   }
 
-  const handleNextStep = () => {
-    if (step < 3) setStep(step + 1)
-  }
-
-  const handlePreviousStep = () => {
+  const handlePrev = () => {
     if (step > 1) setStep(step - 1)
   }
 
   const handleComplete = async () => {
     setLoading(true)
     try {
-      // Submit empresa data
-      const empresaResponse = await fetch('/api/empresas', {
-        method: 'POST',
+      // Guardar discovery data (implementar backend después)
+      console.log('Saving discovery data:', data)
+
+      // Avanzar a Fase 2
+      await fetch(`/api/diagnosticos/${diagnosticoId}/phase`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify(empresaData)
+        body: JSON.stringify({ fase: 2 })
       })
-
-      if (!empresaResponse.ok) throw new Error('Error creating empresa')
-
-      const empresa = await empresaResponse.json()
-      alert(`Empresa creada: ${empresa.nombre}`)
-      // Redirect to dashboard
-      window.location.href = '/dashboard'
+      navigate(`/diagnosis/${diagnosticoId}`)
     } catch (error) {
-      console.error('Error:', error)
-      alert('Error en Business Discovery')
+      alert('Error al guardar información')
     } finally {
       setLoading(false)
     }
   }
 
   return (
-    <div className="max-w-4xl mx-auto">
-      <div className="bg-white rounded-lg shadow-lg">
-        {/* Header */}
-        <div className="bg-gradient-to-r from-primary to-secondary text-white p-8">
-          <h1 className="text-3xl font-bold mb-2">Business Discovery</h1>
-          <p className="text-lg opacity-90">Fase 1: Recopilación de Contexto</p>
-        </div>
+    <div className="space-y-8">
+      {/* Header */}
+      <div className="bg-gradient-to-r from-aibo-blue to-aibo-navy rounded-lg shadow-lg p-8 text-white">
+        <h1 className="text-3xl font-bold font-display">Fase 1: Business Discovery</h1>
+        <p className="text-lg opacity-90 mt-2">
+          Comprende profundamente tu empresa: estrategia, modelo de negocio y tecnología
+        </p>
+      </div>
 
-        {/* Progress indicator */}
-        <div className="px-8 py-6 border-b border-neutral-200">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex-1">
-              <div className={`h-2 rounded-full transition-all ${step >= 1 ? 'bg-primary' : 'bg-neutral-200'}`}></div>
+      {/* Step Indicator */}
+      <div className="flex justify-between items-center">
+        {STEPS.map(s => (
+          <div key={s.number} className="flex-1 text-center">
+            <div className={`
+              w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl mx-auto mb-2
+              ${s.number <= step
+                ? 'bg-aibo-blue text-white'
+                : 'bg-aibo-mist text-aibo-slate'
+              }
+            `}>
+              {s.icon}
             </div>
-            <span className="text-xs font-semibold text-neutral-600 ml-4">Paso {step}/3</span>
+            <p className={`text-xs font-medium ${s.number <= step ? 'text-aibo-blue' : 'text-aibo-slate'}`}>
+              {s.title}
+            </p>
+            {s.number < STEPS.length && (
+              <div className={`h-1 absolute left-[50%] right-[-50%] top-6 ${s.number < step ? 'bg-aibo-blue' : 'bg-aibo-mist'}`} />
+            )}
           </div>
-          <div className="flex justify-between">
-            <div className={`text-sm font-medium ${step >= 1 ? 'text-primary' : 'text-neutral-400'}`}>
-              Datos Empresa
-            </div>
-            <div className={`text-sm font-medium ${step >= 2 ? 'text-primary' : 'text-neutral-400'}`}>
-              Documentos
-            </div>
-            <div className={`text-sm font-medium ${step >= 3 ? 'text-primary' : 'text-neutral-400'}`}>
-              Entrevista
-            </div>
-          </div>
-        </div>
+        ))}
+      </div>
 
-        {/* Content */}
-        <div className="p-8">
-          {step === 1 && (
-            <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-neutral-900">Datos Básicos de la Empresa</h2>
+      {/* Form Content */}
+      <div className="bg-white rounded-lg shadow-md p-8 space-y-6">
+        {/* STEP 1: Datos de Empresa */}
+        {step === 1 && (
+          <div className="space-y-6">
+            <h2 className="text-2xl font-bold text-aibo-navy font-display">Datos de la Empresa</h2>
 
-              <div className="grid grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-neutral-700 mb-2">
-                    Nombre de la Empresa
-                  </label>
-                  <input
-                    type="text"
-                    name="nombre"
-                    value={empresaData.nombre}
-                    onChange={handleEmpresaChange}
-                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary outline-none"
-                    placeholder="Ej: Tech Solutions Inc."
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-neutral-700 mb-2">
-                    País
-                  </label>
-                  <input
-                    type="text"
-                    name="pais"
-                    value={empresaData.pais}
-                    onChange={handleEmpresaChange}
-                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary outline-none"
-                    placeholder="Ej: Mexico"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-neutral-700 mb-2">
-                    Industria
-                  </label>
-                  <input
-                    type="text"
-                    name="industria"
-                    value={empresaData.industria}
-                    onChange={handleEmpresaChange}
-                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary outline-none"
-                    placeholder="Ej: BPO, Retail, SaaS"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-neutral-700 mb-2">
-                    Tamaño de Empresa
-                  </label>
-                  <select
-                    name="tamaño"
-                    value={empresaData.tamaño}
-                    onChange={handleEmpresaChange}
-                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary outline-none"
-                  >
-                    <option value="">Selecciona...</option>
-                    <option value="startup">Startup</option>
-                    <option value="SMB">SMB</option>
-                    <option value="enterprise">Enterprise</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-neutral-700 mb-2">
-                    Número de Empleados
-                  </label>
-                  <input
-                    type="number"
-                    name="empleados"
-                    value={empresaData.empleados}
-                    onChange={handleEmpresaChange}
-                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary outline-none"
-                    placeholder="Ej: 150"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-neutral-700 mb-2">
-                    Facturación Anual (USD)
-                  </label>
-                  <input
-                    type="number"
-                    name="facturacion_usd"
-                    value={empresaData.facturacion_usd}
-                    onChange={handleEmpresaChange}
-                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary outline-none"
-                    placeholder="Ej: 5000000"
-                  />
-                </div>
-              </div>
-            </div>
-          )}
-
-          {step === 2 && (
-            <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-neutral-900">Documentos de Discovery</h2>
-              <p className="text-neutral-600">
-                Sube documentos financieros, estratégicos o comerciales que ayuden en el análisis.
-              </p>
-
-              <div className="border-2 border-dashed border-primary rounded-lg p-8 text-center">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-aibo-navy mb-2">Nombre de Empresa *</label>
                 <input
-                  type="file"
-                  multiple
-                  onChange={handleDocumentoUpload}
-                  className="hidden"
-                  id="documento-upload"
+                  type="text"
+                  value={data.nombre}
+                  onChange={e => handleChange('nombre', e.target.value)}
+                  className="w-full px-4 py-2 border border-aibo-line rounded-lg focus:outline-none focus:border-aibo-blue"
+                  placeholder="Ej: Acme Corp"
                 />
-                <label htmlFor="documento-upload" className="cursor-pointer">
-                  <div className="text-4xl mb-2">📄</div>
-                  <p className="text-primary font-semibold">Arrastra documentos aquí</p>
-                  <p className="text-neutral-500 text-sm">o haz clic para seleccionar</p>
-                </label>
               </div>
 
-              {documentos.length > 0 && (
-                <div className="space-y-2">
-                  <h3 className="font-semibold text-neutral-900">Documentos seleccionados:</h3>
-                  {documentos.map((doc, i) => (
-                    <div key={i} className="flex items-center gap-2 p-3 bg-neutral-50 rounded-lg">
-                      <span>📄</span>
-                      <span className="text-neutral-700">{doc.nombre}</span>
-                    </div>
-                  ))}
-                </div>
-              )}
+              <div>
+                <label className="block text-sm font-medium text-aibo-navy mb-2">País *</label>
+                <input
+                  type="text"
+                  value={data.pais}
+                  onChange={e => handleChange('pais', e.target.value)}
+                  className="w-full px-4 py-2 border border-aibo-line rounded-lg focus:outline-none focus:border-aibo-blue"
+                  placeholder="Ej: México"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-aibo-navy mb-2">Tamaño</label>
+                <select
+                  value={data.tamaño}
+                  onChange={e => handleChange('tamaño', e.target.value)}
+                  className="w-full px-4 py-2 border border-aibo-line rounded-lg focus:outline-none focus:border-aibo-blue"
+                >
+                  <option value="Startup">Startup (&lt;50)</option>
+                  <option value="SMB">SMB (50-500)</option>
+                  <option value="Enterprise">Enterprise (&gt;500)</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-aibo-navy mb-2">Empleados</label>
+                <input
+                  type="number"
+                  value={data.empleados}
+                  onChange={e => handleChange('empleados', parseInt(e.target.value) || 0)}
+                  className="w-full px-4 py-2 border border-aibo-line rounded-lg focus:outline-none focus:border-aibo-blue"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-aibo-navy mb-2">Facturación Anual (USD)</label>
+                <input
+                  type="number"
+                  value={data.facturacion_usd}
+                  onChange={e => handleChange('facturacion_usd', parseFloat(e.target.value) || 0)}
+                  className="w-full px-4 py-2 border border-aibo-line rounded-lg focus:outline-none focus:border-aibo-blue"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-aibo-navy mb-2">Cobertura Geográfica</label>
+                <input
+                  type="text"
+                  value={data.cobertura}
+                  onChange={e => handleChange('cobertura', e.target.value)}
+                  className="w-full px-4 py-2 border border-aibo-line rounded-lg focus:outline-none focus:border-aibo-blue"
+                  placeholder="Ej: LATAM, Global"
+                />
+              </div>
             </div>
-          )}
+          </div>
+        )}
 
-          {step === 3 && (
-            <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-neutral-900">Entrevista de Business Discovery</h2>
-              <p className="text-neutral-600">
-                Responde las siguientes preguntas o sube una grabación de entrevista.
-              </p>
+        {/* STEP 2: Estrategia */}
+        {step === 2 && (
+          <div className="space-y-6">
+            <h2 className="text-2xl font-bold text-aibo-navy font-display">Estrategia & Cultura</h2>
 
-              <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-aibo-navy mb-2">Misión</label>
                 <textarea
-                  value={entrevista}
-                  onChange={(e) => setEntrevista(e.target.value)}
-                  className="w-full h-48 px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary outline-none"
-                  placeholder="Transcripción de entrevista con CEO/COO..."
+                  value={data.mision}
+                  onChange={e => handleChange('mision', e.target.value)}
+                  rows={3}
+                  className="w-full px-4 py-2 border border-aibo-line rounded-lg focus:outline-none focus:border-aibo-blue"
+                  placeholder="¿Cuál es la misión de la empresa?"
                 />
+              </div>
 
-                <div className="text-center p-6 border border-dashed border-neutral-300 rounded-lg">
-                  <button className="text-primary font-semibold hover:text-primary/80">
-                    🎙️ Grabar Audio
-                  </button>
-                </div>
+              <div>
+                <label className="block text-sm font-medium text-aibo-navy mb-2">Visión</label>
+                <textarea
+                  value={data.vision}
+                  onChange={e => handleChange('vision', e.target.value)}
+                  rows={3}
+                  className="w-full px-4 py-2 border border-aibo-line rounded-lg focus:outline-none focus:border-aibo-blue"
+                  placeholder="¿Cuál es la visión a futuro?"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-aibo-navy mb-2">Propósito</label>
+                <textarea
+                  value={data.proposito}
+                  onChange={e => handleChange('proposito', e.target.value)}
+                  rows={3}
+                  className="w-full px-4 py-2 border border-aibo-line rounded-lg focus:outline-none focus:border-aibo-blue"
+                  placeholder="¿Cuál es el propósito o razón de ser?"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-aibo-navy mb-2">Objetivos Estratégicos</label>
+                <textarea
+                  value={data.objetivos_estrategicos}
+                  onChange={e => handleChange('objetivos_estrategicos', e.target.value)}
+                  rows={3}
+                  className="w-full px-4 py-2 border border-aibo-line rounded-lg focus:outline-none focus:border-aibo-blue"
+                  placeholder="Objetivos clave para los próximos años"
+                />
+              </div>
+
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-aibo-navy mb-2">OKRs (Objetivos y Resultados Clave)</label>
+                <textarea
+                  value={data.okrs}
+                  onChange={e => handleChange('okrs', e.target.value)}
+                  rows={3}
+                  className="w-full px-4 py-2 border border-aibo-line rounded-lg focus:outline-none focus:border-aibo-blue"
+                  placeholder="Describe los OKRs principales"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-aibo-navy mb-2">Cultura Organizacional</label>
+                <textarea
+                  value={data.cultura}
+                  onChange={e => handleChange('cultura', e.target.value)}
+                  rows={2}
+                  className="w-full px-4 py-2 border border-aibo-line rounded-lg focus:outline-none focus:border-aibo-blue"
+                  placeholder="¿Cómo describirías la cultura?"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-aibo-navy mb-2">Valores Principales</label>
+                <textarea
+                  value={data.valores}
+                  onChange={e => handleChange('valores', e.target.value)}
+                  rows={2}
+                  className="w-full px-4 py-2 border border-aibo-line rounded-lg focus:outline-none focus:border-aibo-blue"
+                  placeholder="Valores que rigen la empresa"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-aibo-navy mb-2">Liderazgo</label>
+                <textarea
+                  value={data.liderazgo}
+                  onChange={e => handleChange('liderazgo', e.target.value)}
+                  rows={2}
+                  className="w-full px-4 py-2 border border-aibo-line rounded-lg focus:outline-none focus:border-aibo-blue"
+                  placeholder="Descripción del equipo de liderazgo"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-aibo-navy mb-2">Innovación</label>
+                <textarea
+                  value={data.innovacion}
+                  onChange={e => handleChange('innovacion', e.target.value)}
+                  rows={2}
+                  className="w-full px-4 py-2 border border-aibo-line rounded-lg focus:outline-none focus:border-aibo-blue"
+                  placeholder="¿Cómo innova la empresa?"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-aibo-navy mb-2">Colaboración</label>
+                <textarea
+                  value={data.colaboracion}
+                  onChange={e => handleChange('colaboracion', e.target.value)}
+                  rows={2}
+                  className="w-full px-4 py-2 border border-aibo-line rounded-lg focus:outline-none focus:border-aibo-blue"
+                  placeholder="Cómo colaboran los equipos"
+                />
+              </div>
+
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-aibo-navy mb-2">Gestión del Cambio</label>
+                <textarea
+                  value={data.gestion_cambio}
+                  onChange={e => handleChange('gestion_cambio', e.target.value)}
+                  rows={2}
+                  className="w-full px-4 py-2 border border-aibo-line rounded-lg focus:outline-none focus:border-aibo-blue"
+                  placeholder="¿Cómo maneja la empresa el cambio?"
+                />
               </div>
             </div>
-          )}
-        </div>
+          </div>
+        )}
 
-        {/* Navigation */}
-        <div className="px-8 py-6 border-t border-neutral-200 flex justify-between">
+        {/* STEP 3: Modelo de Negocio */}
+        {step === 3 && (
+          <div className="space-y-6">
+            <h2 className="text-2xl font-bold text-aibo-navy font-display">Modelo de Negocio</h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-aibo-navy mb-2">Industria *</label>
+                <select
+                  value={data.industria}
+                  onChange={e => handleChange('industria', e.target.value)}
+                  className="w-full px-4 py-2 border border-aibo-line rounded-lg focus:outline-none focus:border-aibo-blue"
+                >
+                  <option value="">Selecciona</option>
+                  <option value="BPO">BPO / Contact Center</option>
+                  <option value="Retail">Retail</option>
+                  <option value="SaaS">SaaS</option>
+                  <option value="Manufactura">Manufactura</option>
+                  <option value="Finanzas">Finanzas</option>
+                  <option value="Otro">Otro</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-aibo-navy mb-2">Segmento</label>
+                <input
+                  type="text"
+                  value={data.segmento}
+                  onChange={e => handleChange('segmento', e.target.value)}
+                  className="w-full px-4 py-2 border border-aibo-line rounded-lg focus:outline-none focus:border-aibo-blue"
+                  placeholder="Ej: Enterprise, SMB, Startup"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-aibo-navy mb-2">Sub-industria</label>
+                <input
+                  type="text"
+                  value={data.subindustria}
+                  onChange={e => handleChange('subindustria', e.target.value)}
+                  className="w-full px-4 py-2 border border-aibo-line rounded-lg focus:outline-none focus:border-aibo-blue"
+                  placeholder="Ej: Customer Service, Tech Support"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-aibo-navy mb-2">Tipo de Empresa</label>
+                <input
+                  type="text"
+                  value={data.tipo_empresa}
+                  onChange={e => handleChange('tipo_empresa', e.target.value)}
+                  className="w-full px-4 py-2 border border-aibo-line rounded-lg focus:outline-none focus:border-aibo-blue"
+                  placeholder="Ej: Privada, Pública, Joint Venture"
+                />
+              </div>
+
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-aibo-navy mb-2">Tipo de Operación</label>
+                <textarea
+                  value={data.tipo_operacion}
+                  onChange={e => handleChange('tipo_operacion', e.target.value)}
+                  rows={2}
+                  className="w-full px-4 py-2 border border-aibo-line rounded-lg focus:outline-none focus:border-aibo-blue"
+                  placeholder="Ej: Operaciones propias, Outsourcing, Híbrido"
+                />
+              </div>
+
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-aibo-navy mb-2">Oferta (Productos/Servicios/Marcas)</label>
+                <textarea
+                  value={data.oferta}
+                  onChange={e => handleChange('oferta', e.target.value)}
+                  rows={2}
+                  className="w-full px-4 py-2 border border-aibo-line rounded-lg focus:outline-none focus:border-aibo-blue"
+                  placeholder="¿Qué ofrece la empresa?"
+                />
+              </div>
+
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-aibo-navy mb-2">Propuesta de Valor</label>
+                <textarea
+                  value={data.propuesta_valor}
+                  onChange={e => handleChange('propuesta_valor', e.target.value)}
+                  rows={2}
+                  className="w-full px-4 py-2 border border-aibo-line rounded-lg focus:outline-none focus:border-aibo-blue"
+                  placeholder="¿Qué valor único ofreces?"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-aibo-navy mb-2">Clientes Principales</label>
+                <input
+                  type="text"
+                  value={data.clientes}
+                  onChange={e => handleChange('clientes', e.target.value)}
+                  className="w-full px-4 py-2 border border-aibo-line rounded-lg focus:outline-none focus:border-aibo-blue"
+                  placeholder="Ej: B2B, B2C, Enterprise, Government"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-aibo-navy mb-2">Canal de Adquisición Principal</label>
+                <input
+                  type="text"
+                  value={data.canal_adquisicion}
+                  onChange={e => handleChange('canal_adquisicion', e.target.value)}
+                  className="w-full px-4 py-2 border border-aibo-line rounded-lg focus:outline-none focus:border-aibo-blue"
+                  placeholder="Ej: Ventas directas, Marketing, Partnerships"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-aibo-navy mb-2">Calidad de CRM y Datos de Funnel</label>
+                <select
+                  value={data.crm_quality}
+                  onChange={e => handleChange('crm_quality', e.target.value)}
+                  className="w-full px-4 py-2 border border-aibo-line rounded-lg focus:outline-none focus:border-aibo-blue"
+                >
+                  <option value="">Selecciona</option>
+                  <option value="Excelente">Excelente</option>
+                  <option value="Buena">Buena</option>
+                  <option value="Regular">Regular</option>
+                  <option value="Pobre">Pobre</option>
+                  <option value="No tienen">No tienen CRM formal</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-aibo-navy mb-2">Métricas Comerciales Formales</label>
+                <input
+                  type="text"
+                  value={data.metricas_comerciales}
+                  onChange={e => handleChange('metricas_comerciales', e.target.value)}
+                  className="w-full px-4 py-2 border border-aibo-line rounded-lg focus:outline-none focus:border-aibo-blue"
+                  placeholder="Ej: CAC, LTV, Conversión, Ciclo de venta"
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* STEP 4: Tecnología */}
+        {step === 4 && (
+          <div className="space-y-6">
+            <h2 className="text-2xl font-bold text-aibo-navy font-display">Stack Tecnológico</h2>
+
+            <div className="space-y-4">
+              {/* CRM */}
+              <div className="border border-aibo-line rounded-lg p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <input
+                    type="checkbox"
+                    id="crm"
+                    checked={data.tiene_crm}
+                    onChange={e => handleChange('tiene_crm', e.target.checked)}
+                    className="w-4 h-4"
+                  />
+                  <label htmlFor="crm" className="font-medium text-aibo-navy">Tiene CRM</label>
+                </div>
+                {data.tiene_crm && (
+                  <input
+                    type="text"
+                    value={data.crm_tipo}
+                    onChange={e => handleChange('crm_tipo', e.target.value)}
+                    className="w-full px-4 py-2 border border-aibo-line rounded-lg focus:outline-none focus:border-aibo-blue text-sm"
+                    placeholder="Ej: Salesforce, HubSpot, Pipedrive"
+                  />
+                )}
+              </div>
+
+              {/* ERP */}
+              <div className="border border-aibo-line rounded-lg p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <input
+                    type="checkbox"
+                    id="erp"
+                    checked={data.tiene_erp}
+                    onChange={e => handleChange('tiene_erp', e.target.checked)}
+                    className="w-4 h-4"
+                  />
+                  <label htmlFor="erp" className="font-medium text-aibo-navy">Tiene ERP</label>
+                </div>
+                {data.tiene_erp && (
+                  <input
+                    type="text"
+                    value={data.erp_tipo}
+                    onChange={e => handleChange('erp_tipo', e.target.value)}
+                    className="w-full px-4 py-2 border border-aibo-line rounded-lg focus:outline-none focus:border-aibo-blue text-sm"
+                    placeholder="Ej: SAP, Oracle, NetSuite"
+                  />
+                )}
+              </div>
+
+              {/* Work Management */}
+              <div className="border border-aibo-line rounded-lg p-4">
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    id="wm"
+                    checked={data.tiene_work_management}
+                    onChange={e => handleChange('tiene_work_management', e.target.checked)}
+                    className="w-4 h-4"
+                  />
+                  <label htmlFor="wm" className="font-medium text-aibo-navy">Tiene Work Management (Jira, Asana, etc.)</label>
+                </div>
+              </div>
+
+              {/* BI */}
+              <div className="border border-aibo-line rounded-lg p-4">
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    id="bi"
+                    checked={data.tiene_bi}
+                    onChange={e => handleChange('tiene_bi', e.target.checked)}
+                    className="w-4 h-4"
+                  />
+                  <label htmlFor="bi" className="font-medium text-aibo-navy">Tiene BI/Analytics (Power BI, Tableau, Looker)</label>
+                </div>
+              </div>
+
+              {/* IA */}
+              <div className="border border-aibo-line rounded-lg p-4">
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    id="ia"
+                    checked={data.tiene_ia}
+                    onChange={e => handleChange('tiene_ia', e.target.checked)}
+                    className="w-4 h-4"
+                  />
+                  <label htmlFor="ia" className="font-medium text-aibo-navy">Usa IA en operaciones</label>
+                </div>
+              </div>
+
+              {/* Automatización */}
+              <div className="border border-aibo-line rounded-lg p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <input
+                    type="checkbox"
+                    id="auto"
+                    checked={data.tiene_automatizacion}
+                    onChange={e => handleChange('tiene_automatizacion', e.target.checked)}
+                    className="w-4 h-4"
+                  />
+                  <label htmlFor="auto" className="font-medium text-aibo-navy">Tiene Automatización</label>
+                </div>
+                {data.tiene_automatizacion && (
+                  <textarea
+                    value={data.automatizacion_desc}
+                    onChange={e => handleChange('automatizacion_desc', e.target.value)}
+                    rows={2}
+                    className="w-full px-4 py-2 border border-aibo-line rounded-lg focus:outline-none focus:border-aibo-blue text-sm"
+                    placeholder="Describe qué procesos están automatizados"
+                  />
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Navigation */}
+      <div className="flex gap-4">
+        <button
+          onClick={handlePrev}
+          disabled={step === 1}
+          className="flex-1 bg-aibo-mist text-aibo-navy font-semibold py-3 rounded-lg hover:bg-aibo-line transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          ← Atrás
+        </button>
+
+        {step < 4 ? (
           <button
-            onClick={handlePreviousStep}
-            disabled={step === 1}
-            className="px-6 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            onClick={handleNext}
+            className="flex-1 bg-aibo-blue text-white font-semibold py-3 rounded-lg hover:bg-aibo-navy transition-colors"
           >
-            ← Anterior
+            Siguiente →
           </button>
-
-          {step < 3 ? (
-            <button
-              onClick={handleNextStep}
-              className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
-            >
-              Siguiente →
-            </button>
-          ) : (
-            <button
-              onClick={handleComplete}
-              disabled={loading}
-              className="px-6 py-2 bg-success text-white rounded-lg hover:bg-success/90 disabled:opacity-50 transition-colors"
-            >
-              {loading ? 'Procesando...' : 'Completar Discovery'}
-            </button>
-          )}
-        </div>
+        ) : (
+          <button
+            onClick={handleComplete}
+            disabled={loading}
+            className="flex-1 bg-aibo-signal text-white font-semibold py-3 rounded-lg hover:bg-aibo-signal-dark transition-colors disabled:opacity-50"
+          >
+            {loading ? 'Guardando...' : '✓ Completar Discovery'}
+          </button>
+        )}
       </div>
     </div>
   )

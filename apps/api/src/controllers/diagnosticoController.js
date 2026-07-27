@@ -1,3 +1,4 @@
+import pool from '../config/database.js'
 import * as empresaModel from '../models/empresa.js'
 import * as diagnosticoModel from '../models/diagnostico.js'
 import * as pilarModel from '../models/pilar.js'
@@ -7,6 +8,8 @@ export async function createDiagnostico(req, res, next) {
   try {
     const { nombre } = req.body
     const tenantId = req.user.tenantId
+    const usuarioId = req.user.id
+    const rolIniciador = req.user.rol
 
     // En MVP, usar la primera empresa del tenant (o crear una nueva)
     const empresas = await empresaModel.listEmpresas(tenantId)
@@ -22,7 +25,18 @@ export async function createDiagnostico(req, res, next) {
       nombre || `Diagnóstico ${new Date().toLocaleDateString()}`
     )
 
-    res.status(201).json(diagnostico)
+    // Actualizar fase actual e iniciador
+    await pool.query(
+      `UPDATE diagnosticos SET fase_actual = 1, iniciado_por = $1, rol_iniciador = $2 WHERE id = $3`,
+      [usuarioId, rolIniciador, diagnostico.id]
+    )
+
+    res.status(201).json({
+      ...diagnostico,
+      fase_actual: 1,
+      iniciado_por: usuarioId,
+      rol_iniciador: rolIniciador
+    })
   } catch (error) {
     next(error)
   }
@@ -180,6 +194,38 @@ export async function selectFramework(req, res, next) {
     res.json({
       diagnostico: updated,
       framework: pilaresWithPreguntas
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
+export async function updatePhase(req, res, next) {
+  try {
+    const { diagnosticoId } = req.params
+    const { fase } = req.body
+    const tenantId = req.user.tenantId
+
+    // Validate phase (1-8)
+    if (!fase || fase < 1 || fase > 8) {
+      return res.status(400).json({ error: 'Invalid phase. Must be 1-8.' })
+    }
+
+    // Verify diagnostico exists
+    const diagnostico = await diagnosticoModel.getDiagnostico(diagnosticoId, tenantId)
+    if (!diagnostico) {
+      return res.status(404).json({ error: 'Diagnóstico not found' })
+    }
+
+    // Update phase
+    const result = await pool.query(
+      `UPDATE diagnosticos SET fase_actual = $1, updated_at = NOW() WHERE id = $2 RETURNING *`,
+      [fase, diagnosticoId]
+    )
+
+    res.json({
+      message: `Fase actualizada a ${fase}`,
+      diagnostico: result.rows[0]
     })
   } catch (error) {
     next(error)

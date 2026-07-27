@@ -11,6 +11,6 @@ router.use(verifyToken)
 router.post('/:diagnosticoId/generate', proposalController.generateProposalDraft)
 router.get('/:propuestaId', proposalController.getProposal)
 router.put('/:propuestaId', proposalController.updateProposal)
-router.post('/:diagnosticoId/report', proposalController.generateReportWord)
+router.post('/:diagnosticoId/report', proposalController.downloadReportWord)
 
 export default router
