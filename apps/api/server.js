@@ -7,6 +7,7 @@ import empresasRoutes from './src/routes/empresas.js'
 import diagnosticoRoutes from './src/routes/diagnosticos.js'
 import scoringRoutes from './src/routes/scoring.js'
 import financialRoutes from './src/routes/financial.js'
+import proposalRoutes from './src/routes/proposals.js'
 import { errorHandler } from './src/middleware/errorHandler.js'
 
 dotenv.config()
@@ -32,6 +33,7 @@ app.use('/empresas', empresasRoutes)
 app.use('/diagnosticos', diagnosticoRoutes)
 app.use('/scoring', scoringRoutes)
 app.use('/financial', financialRoutes)
+app.use('/proposals', proposalRoutes)
 
 // Error handling
 app.use(errorHandler)
