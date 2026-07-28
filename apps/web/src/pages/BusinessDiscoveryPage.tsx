@@ -4,6 +4,7 @@ import { useAuthStore } from '../store/auth'
 
 interface DiscoveryData {
   // Empresa
+  website_url: string
   nombre: string
   pais: string
   tamaño: string
@@ -50,6 +51,7 @@ interface DiscoveryData {
 }
 
 const INITIAL_DATA: DiscoveryData = {
+  website_url: '',
   nombre: '',
   pais: '',
   tamaño: 'SMB',
@@ -104,9 +106,54 @@ export default function BusinessDiscoveryPage() {
   const [step, setStep] = useState(1)
   const [data, setData] = useState<DiscoveryData>(INITIAL_DATA)
   const [loading, setLoading] = useState(false)
+  const [validatingWebsite, setValidatingWebsite] = useState(false)
 
   const handleChange = (field: keyof DiscoveryData, value: any) => {
     setData(prev => ({ ...prev, [field]: value }))
+  }
+
+  const handleValidateWebsite = async () => {
+    if (!data.website_url.trim()) {
+      alert('Por favor ingresa una URL del website')
+      return
+    }
+
+    setValidatingWebsite(true)
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/empresas/analyze-website`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ website_url: data.website_url })
+      })
+
+      if (response.ok) {
+        const extractedData = await response.json()
+        // Completar automáticamente los campos disponibles
+        setData(prev => ({
+          ...prev,
+          nombre: extractedData.nombre || prev.nombre,
+          pais: extractedData.pais || prev.pais,
+          mision: extractedData.mision || prev.mision,
+          vision: extractedData.vision || prev.vision,
+          propuesta_valor: extractedData.propuesta_valor || prev.propuesta_valor,
+          oferta: extractedData.oferta || prev.oferta,
+          clientes: extractedData.clientes || prev.clientes,
+          industria: extractedData.industria || prev.industria,
+          subindustria: extractedData.subindustria || prev.subindustria
+        }))
+        alert('✅ Website validado. Formulario completado automáticamente con información encontrada.')
+      } else {
+        alert('No se pudo validar el website. Por favor verifica la URL e intenta de nuevo.')
+      }
+    } catch (error) {
+      console.error('Error validating website:', error)
+      alert('Error al validar el website')
+    } finally {
+      setValidatingWebsite(false)
+    }
   }
 
   const handleNext = () => {
@@ -179,6 +226,28 @@ export default function BusinessDiscoveryPage() {
         {step === 1 && (
           <div className="space-y-6">
             <h2 className="text-2xl font-bold text-aibo-navy font-display">Datos de la Empresa</h2>
+
+            {/* Website URL + Validation */}
+            <div className="bg-aibo-blue/5 border border-aibo-blue/20 rounded-lg p-4">
+              <label className="block text-sm font-medium text-aibo-navy mb-2">🌐 Website de la Empresa (Opcional)</label>
+              <div className="flex gap-2">
+                <input
+                  type="url"
+                  value={data.website_url}
+                  onChange={e => handleChange('website_url', e.target.value)}
+                  className="flex-1 px-4 py-2 border border-aibo-line rounded-lg focus:outline-none focus:border-aibo-blue"
+                  placeholder="https://www.ejemplo.com"
+                />
+                <button
+                  onClick={handleValidateWebsite}
+                  disabled={validatingWebsite || !data.website_url.trim()}
+                  className="px-6 py-2 bg-aibo-blue text-white font-semibold rounded-lg hover:bg-aibo-navy transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+                >
+                  {validatingWebsite ? 'Validando...' : '✓ Validar'}
+                </button>
+              </div>
+              <p className="text-xs text-aibo-slate mt-2">Ingresa tu website para que IA complete automáticamente la información disponible</p>
+            </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>

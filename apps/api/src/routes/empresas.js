@@ -13,4 +13,7 @@ router.get('/', empresaController.listEmpresas)
 router.get('/:id', empresaController.getEmpresa)
 router.put('/:id', empresaController.updateEmpresa)
 
+// Website Analysis
+router.post('/analyze-website', empresaController.validateWebsite)
+
 export default router

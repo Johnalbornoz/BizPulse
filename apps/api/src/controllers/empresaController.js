@@ -1,4 +1,5 @@
 import * as empresaModel from '../models/empresa.js'
+import { analyzeWebsite } from '../services/websiteAnalyzerEngine.js'
 
 export async function createEmpresa(req, res, next) {
   try {
@@ -63,6 +64,33 @@ export async function updateEmpresa(req, res, next) {
     }
 
     res.json(empresa)
+  } catch (error) {
+    next(error)
+  }
+}
+
+export async function validateWebsite(req, res, next) {
+  try {
+    const { website_url } = req.body
+
+    if (!website_url) {
+      return res.status(400).json({ error: 'website_url is required' })
+    }
+
+    // Validate URL format
+    try {
+      new URL(website_url)
+    } catch (e) {
+      return res.status(400).json({ error: 'Invalid URL format' })
+    }
+
+    const result = await analyzeWebsite(website_url)
+
+    if (!result.success) {
+      return res.status(400).json({ error: result.error || 'Failed to analyze website' })
+    }
+
+    res.json(result)
   } catch (error) {
     next(error)
   }

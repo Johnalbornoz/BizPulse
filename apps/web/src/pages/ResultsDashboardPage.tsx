@@ -26,38 +26,36 @@ interface DiagnosisResults {
 
 export default function ResultsDashboardPage() {
   const { diagnosticoId } = useParams()
-  const { token } = useAuthStore()
-  const [results, setResults] = useState<DiagnosisResults | null>(null)
-  const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    loadResults()
-  }, [diagnosticoId])
-
-  const loadResults = async () => {
-    try {
-      const response = await fetch(
-        `/api/scoring/${diagnosticoId}/progress`,
-        { headers: { 'Authorization': `Bearer ${token}` } }
-      )
-      if (response.ok) {
-        const data = await response.json()
-        // Process data into results format
-        setResults(data)
+  // Mock data for Fase 8
+  const results: DiagnosisResults = {
+    business_excellence_index: 3.2,
+    pilares: [
+      { nombre: 'Business DNA', eje1: 3, eje2: 2, impacto: 500000 },
+      { nombre: 'Strategy Alignment', eje1: 4, eje2: 3, impacto: 600000 },
+      { nombre: 'Process Excellence', eje1: 2, eje2: 2, impacto: 750000 },
+      { nombre: 'Operational Performance', eje1: 3, eje2: 3, impacto: 400000 }
+    ],
+    roadmap: [
+      {
+        id: '1',
+        titulo: 'Implementar CRM Estándar',
+        pilar_id: 5,
+        fase_propuesta: 'quick_wins_30d',
+        impacto_estimado_usd: 450000,
+        esfuerzo_horas: 240,
+        prioridad: 1
+      },
+      {
+        id: '2',
+        titulo: 'Definir OKRs Formales',
+        pilar_id: 2,
+        fase_propuesta: 'quick_wins_30d',
+        impacto_estimado_usd: 250000,
+        esfuerzo_horas: 80,
+        prioridad: 2
       }
-    } catch (error) {
-      console.error('Error loading results:', error)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  if (loading) {
-    return <div className="text-center py-8">Cargando resultados...</div>
-  }
-
-  if (!results) {
-    return <div className="text-center py-8">No hay resultados disponibles</div>
+    ]
   }
 
   const radarData = results.pilares.map(p => ({
@@ -111,7 +109,7 @@ export default function ResultsDashboardPage() {
 
       {/* Pilares Detalle */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {results.pilares.map((pilar) => (
+        {results.pilares && results.pilares.map((pilar) => (
           <div key={pilar.nombre} className="bg-white rounded-lg shadow-md p-6 border border-aibo-line">
             <h3 className="text-lg font-bold text-aibo-navy mb-4 font-display">{pilar.nombre}</h3>
 
