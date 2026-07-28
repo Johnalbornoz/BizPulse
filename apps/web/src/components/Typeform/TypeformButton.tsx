@@ -21,39 +21,38 @@ export default function TypeformButton({
   const baseClasses = `
     font-semibold font-display
     transition-all duration-300
-    rounded-2xl
+    rounded-lg
     outline-none
     focus:ring-2 focus:ring-offset-2 focus:ring-aibo-blue
     disabled:opacity-50 disabled:cursor-not-allowed
     cursor-pointer
-    shadow-md hover:shadow-lg
   `
 
   const sizeClasses = {
     sm: 'px-4 py-2 text-sm',
-    md: 'px-8 py-4 text-lg',
-    lg: 'px-12 py-5 text-xl',
+    md: 'px-8 py-3 text-base',
+    lg: 'px-12 py-4 text-lg',
   }
 
   const variantClasses = {
     primary: `
-      bg-gradient-to-r from-aibo-blue to-aibo-signal
-      text-white
-      hover:shadow-xl hover:scale-105
-      active:scale-95
+      bg-aibo-blue text-white
+      hover:bg-aibo-navy hover:shadow-lg
+      active:bg-aibo-navy
+      shadow-md
     `,
     secondary: `
-      bg-gradient-to-r from-aibo-navy to-aibo-blue
-      text-white
-      hover:shadow-xl
-      active:scale-95
+      bg-aibo-signal text-white
+      hover:bg-aibo-navy hover:shadow-lg
+      active:bg-aibo-navy
+      shadow-md
     `,
     outline: `
       bg-white
       text-aibo-blue
-      border-2 border-aibo-blue
+      border border-aibo-blue
       hover:bg-aibo-cloud
-      active:scale-95
+      active:bg-aibo-mist
     `,
   }
 

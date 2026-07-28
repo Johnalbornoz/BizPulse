@@ -13,10 +13,10 @@ export default function TypeformHeading({ children, subtitle, className = '' }: 
         className={`
           text-4xl md:text-5xl font-bold
           font-display
-          bg-gradient-to-r from-aibo-navy via-aibo-blue to-aibo-signal
-          bg-clip-text text-transparent
+          text-aibo-navy
           mb-4
           leading-tight
+          tracking-tight
         `}
       >
         {children}
