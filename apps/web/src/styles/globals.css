@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* CSS Variables for AiBo Colors */
+/* CSS Variables for Luxury Design */
 :root {
   --color-aibo-blue: #286CBE;
   --color-aibo-navy: #1D3C6A;
@@ -13,6 +13,13 @@
   --color-aibo-slate: #5B6B7E;
   --color-aibo-mist: #E3EAF3;
   --color-aibo-line: #CBD7E5;
+
+  /* Luxury palette */
+  --color-white: #FFFFFF;
+  --color-black: #000000;
+  --color-gray-light: #F8F8F8;
+  --color-gray-medium: #E8E8E8;
+  --color-gray-dark: #4A4A4A;
 }
 
 * {
@@ -20,14 +27,26 @@
 }
 
 body {
-  @apply bg-aibo-cloud text-aibo-ink;
+  @apply bg-white text-black;
   font-feature-settings: "rlig" 1, "calt" 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  letter-spacing: 0.3px;
 }
 
 html {
   scroll-behavior: smooth;
+}
+
+/* Typography Enhancement */
+h1, h2, h3, h4, h5, h6 {
+  letter-spacing: -0.5px;
+  font-weight: 600;
+}
+
+p {
+  line-height: 1.7;
+  letter-spacing: 0.2px;
 }
 
 /* Typeform Animations */

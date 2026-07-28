@@ -9,10 +9,9 @@ export default function TypeformCard({ children, className = '' }: TypeformCardP
   return (
     <div
       className={`
-        bg-white rounded-xl shadow-md p-10 md:p-16
-        max-w-2xl mx-auto
-        border border-aibo-line
-        hover:shadow-lg transition-shadow duration-300
+        bg-white
+        p-0 md:p-0
+        max-w-3xl mx-auto
         ${className}
       `}
     >

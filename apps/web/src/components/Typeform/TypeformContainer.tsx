@@ -6,10 +6,10 @@ interface TypeformContainerProps {
 }
 
 const gradients = {
-  primary: 'from-aibo-cloud to-white',
-  secondary: 'from-white to-aibo-mist',
-  accent: 'from-white via-slate-50 to-white',
-  neutral: 'from-white to-white',
+  primary: 'bg-white',
+  secondary: 'bg-white',
+  accent: 'bg-white',
+  neutral: 'bg-white',
 }
 
 export default function TypeformContainer({
@@ -20,17 +20,13 @@ export default function TypeformContainer({
     <div
       className={`
         min-h-screen
-        bg-gradient-to-b ${gradients[gradient]}
+        ${gradients[gradient]}
         flex items-center justify-center
-        py-16 px-4
+        py-24 px-4 md:px-8
         relative overflow-hidden
       `}
     >
-      {/* Subtle background elements */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-aibo-signal opacity-3 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-aibo-navy opacity-5 rounded-full blur-3xl" />
-
-      <div className="w-full max-w-2xl relative z-10">
+      <div className="w-full max-w-3xl relative z-10">
         {children}
       </div>
     </div>

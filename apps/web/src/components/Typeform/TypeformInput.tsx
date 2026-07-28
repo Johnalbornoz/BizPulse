@@ -19,17 +19,17 @@ const TypeformInput = forwardRef<HTMLInputElement, TypeformInputProps>(
           ref={ref}
           className={`
             w-full
-            px-0 py-3
-            text-base
+            px-0 py-4
+            text-lg
             bg-transparent
-            border-b border-aibo-line
-            focus:border-aibo-blue focus:ring-0
+            border-b-2 border-gray-medium
+            focus:border-black focus:ring-0
             outline-none
-            transition-all duration-300
-            placeholder-aibo-slate/60
+            transition-all duration-500
+            placeholder-gray-dark/40
             font-sans
             disabled:opacity-50 disabled:cursor-not-allowed
-            ${error ? 'border-b-2 border-red-400 focus:border-red-400' : ''}
+            ${error ? 'border-b-2 border-red-500 focus:border-red-500' : ''}
             ${className}
           `}
           {...props}

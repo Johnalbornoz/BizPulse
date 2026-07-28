@@ -11,10 +11,10 @@ export default function TypeformHeading({ children, subtitle, className = '' }: 
     <div className={`mb-8 md:mb-12 ${className}`}>
       <h2
         className={`
-          text-4xl md:text-5xl font-bold
+          text-5xl md:text-6xl font-semibold
           font-display
-          text-aibo-navy
-          mb-4
+          text-black
+          mb-6 md:mb-8
           leading-tight
           tracking-tight
         `}
@@ -22,7 +22,7 @@ export default function TypeformHeading({ children, subtitle, className = '' }: 
         {children}
       </h2>
       {subtitle && (
-        <p className="text-lg text-aibo-slate font-light">
+        <p className="text-xl text-gray-dark font-light leading-relaxed">
           {subtitle}
         </p>
       )}

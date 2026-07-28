@@ -19,40 +19,42 @@ export default function TypeformButton({
   ...props
 }: TypeformButtonProps) {
   const baseClasses = `
-    font-semibold font-display
-    transition-all duration-300
-    rounded-lg
+    font-display font-semibold
+    transition-all duration-500
+    rounded-none
     outline-none
-    focus:ring-2 focus:ring-offset-2 focus:ring-aibo-blue
+    focus:outline-none
     disabled:opacity-50 disabled:cursor-not-allowed
     cursor-pointer
+    tracking-wide
+    letter-spacing: 1px
   `
 
   const sizeClasses = {
-    sm: 'px-4 py-2 text-sm',
-    md: 'px-8 py-3 text-base',
-    lg: 'px-12 py-4 text-lg',
+    sm: 'px-8 py-2 text-sm',
+    md: 'px-12 py-4 text-base',
+    lg: 'px-16 py-5 text-lg',
   }
 
   const variantClasses = {
     primary: `
-      bg-aibo-blue text-white
-      hover:bg-aibo-navy hover:shadow-lg
-      active:bg-aibo-navy
-      shadow-md
+      bg-black text-white
+      border border-black
+      hover:bg-white hover:text-black
+      active:bg-gray-dark active:text-white
     `,
     secondary: `
-      bg-aibo-signal text-white
-      hover:bg-aibo-navy hover:shadow-lg
+      bg-aibo-blue text-white
+      border border-aibo-blue
+      hover:bg-aibo-navy hover:border-aibo-navy
       active:bg-aibo-navy
-      shadow-md
     `,
     outline: `
-      bg-white
-      text-aibo-blue
-      border border-aibo-blue
-      hover:bg-aibo-cloud
-      active:bg-aibo-mist
+      bg-transparent
+      text-black
+      border border-black
+      hover:bg-black hover:text-white
+      active:bg-gray-dark
     `,
   }
 
