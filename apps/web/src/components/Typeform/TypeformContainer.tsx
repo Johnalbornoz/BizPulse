@@ -22,11 +22,11 @@ export default function TypeformContainer({
         min-h-screen
         ${gradients[gradient]}
         flex items-center justify-center
-        py-24 px-4 md:px-8
+        py-32 px-4 md:px-8
         relative overflow-hidden
       `}
     >
-      <div className="w-full max-w-3xl relative z-10">
+      <div className="w-full max-w-2xl relative z-10">
         {children}
       </div>
     </div>

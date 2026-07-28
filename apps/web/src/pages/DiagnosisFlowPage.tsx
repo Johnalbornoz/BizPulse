@@ -29,66 +29,66 @@ export default function DiagnosisFlowPage() {
     {
       number: 1,
       title: 'Business Discovery',
-      description: 'Recopilar contexto empresarial: datos básicos, documentos, entrevistas',
+      description: 'Comprensión profunda de la empresa: contexto, documentos, perspectiva de liderazgo',
       status: 'in_progress',
       route: `/discovery/${diagnosticoId}`,
-      color: 'border-aibo-blue'
+      color: 'border-gray-900'
     },
     {
       number: 2,
       title: 'Business Classification',
-      description: 'IA clasifica industria, modelo de negocio y modelo operativo',
+      description: 'Análisis de industria, modelo operativo y posicionamiento competitivo',
       status: 'pending',
       route: `/classification/${diagnosticoId}`,
-      color: 'border-blue-500'
+      color: 'border-gray-700'
     },
     {
       number: 3,
       title: 'Framework Selection',
-      description: 'Seleccionar marco de evaluación (11 pilares de excelencia)',
+      description: 'Construcción dinámica del diagnóstico con 11 pilares de excelencia',
       status: 'pending',
       route: `/framework/${diagnosticoId}`,
-      color: 'border-purple-500'
+      color: 'border-gray-600'
     },
     {
       number: 4,
       title: 'Adaptive Assessment',
-      description: 'Cuestionario adaptativo: responder preguntas por pilar',
+      description: 'Evaluación inteligente: cuestionario adaptado a tu realidad empresarial',
       status: 'pending',
       route: `/assessment/${diagnosticoId}`,
-      color: 'border-indigo-500'
+      color: 'border-gray-600'
     },
     {
       number: 5,
-      title: 'Business Excellence Diagnosis',
-      description: 'IA sugiere scores en dos ejes; Consultor valida',
+      title: 'Excellence Scoring',
+      description: 'Calificación en dos dimensiones: estado actual vs. estado del arte',
       status: 'pending',
       route: `/validation/${diagnosticoId}`,
-      color: 'border-rose-500'
+      color: 'border-gray-700'
     },
     {
       number: 6,
-      title: 'Gap Analysis + Financial Impact',
-      description: 'Cada brecha cuantificada en ROI y impacto financiero',
+      title: 'Financial Impact Analysis',
+      description: 'Cuantificación de brechas en ROI, flujo de caja e impacto en rentabilidad',
       status: 'pending',
       route: `/financial/${diagnosticoId}`,
-      color: 'border-orange-500'
+      color: 'border-gray-800'
     },
     {
       number: 7,
       title: 'Transformation Roadmap',
-      description: 'Priorizar iniciativas por impacto/esfuerzo',
+      description: 'Plan de acción priorizado: iniciativas de impacto máximo con mínimo esfuerzo',
       status: 'pending',
       route: `/roadmap/${diagnosticoId}`,
-      color: 'border-teal-500'
+      color: 'border-gray-900'
     },
     {
       number: 8,
-      title: 'Sales & Consulting Proposal',
-      description: 'Generar SOW estructurado en fases (30d, 90d, 180d, 12-24m)',
+      title: 'Proposal & Commitment',
+      description: 'Propuesta estructurada de consultoría con fases, plazos y compromisos claros',
       status: 'pending',
       route: `/proposal/${diagnosticoId}`,
-      color: 'border-emerald-600'
+      color: 'border-black'
     }
   ]
 
@@ -116,7 +116,7 @@ export default function DiagnosisFlowPage() {
         </TypeformCard>
 
         {/* Phases Grid */}
-        <div className="space-y-4">
+        <div className="space-y-3">
           {phases.map((phase, index) => (
             <button
               key={phase.number}
@@ -128,29 +128,27 @@ export default function DiagnosisFlowPage() {
               }}
               disabled={!isConsultor && phase.number > 1}
               className={`
-                w-full group p-6 rounded-2xl transition-all duration-300
+                w-full group transition-all duration-300
                 animate-slideIn
-                ${isConsultor || phase.number === 1 ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'}
+                ${isConsultor || phase.number === 1 ? 'cursor-pointer' : 'cursor-not-allowed opacity-40'}
               `}
               style={{ animationDelay: `${index * 50}ms` }}
             >
               <div
                 className={`
                   h-full bg-white border-l-4 ${phase.color}
-                  rounded-lg p-6 text-black
-                  shadow-sm hover:shadow-md
-                  transition-all duration-300
-                  ${phase.number === currentPhase ? 'ring-1 ring-gray-medium' : ''}
-                  ${(isConsultor || phase.number === 1) && phase.number !== currentPhase ? 'group-hover:translate-x-1' : ''}
+                  rounded-lg px-6 py-5 text-black
+                  shadow-sm hover:shadow-sm
+                  transition-all duration-200
+                  ${phase.number === currentPhase ? 'ring-1 ring-gray-300' : ''}
                 `}
               >
                 <div className="flex items-start gap-4">
                   {/* Phase Number */}
-                  <div className="flex-shrink-0">
+                  <div className="flex-shrink-0 pt-0.5">
                     <div className={`
-                      w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm
-                      bg-gray-light border border-gray-medium
-                      text-gray-dark
+                      w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold
+                      text-gray-500
                     `}>
                       {phase.number}
                     </div>
@@ -158,25 +156,22 @@ export default function DiagnosisFlowPage() {
 
                   {/* Content */}
                   <div className="flex-1 text-left">
-                    <div className="flex items-center justify-between mb-2">
-                      <h3 className="text-xl font-bold font-display">
+                    <div className="flex items-start justify-between gap-4 mb-1">
+                      <h3 className="text-lg font-semibold font-display tracking-tight text-black">
                         {phase.title}
                       </h3>
-                      <span className="text-sm font-semibold opacity-90">
-                        Paso {phase.number}/8
-                      </span>
                     </div>
-                    <p className="text-sm opacity-90 leading-relaxed">
+                    <p className="text-sm text-gray-600 leading-relaxed mb-3">
                       {phase.description}
                     </p>
                     {phase.status === 'completed' && (
-                      <div className="mt-3 inline-flex items-center gap-1 bg-gray-light px-3 py-1 rounded-full text-xs font-semibold text-gray-dark border border-gray-medium">
-                        Completado
+                      <div className="inline-flex items-center text-xs font-medium text-gray-500">
+                        ✓ Completado
                       </div>
                     )}
                     {phase.status === 'in_progress' && (
-                      <div className="mt-3 inline-flex items-center gap-1 bg-gray-light px-3 py-1 rounded-full text-xs font-semibold text-gray-dark border border-gray-medium">
-                        En progreso
+                      <div className="inline-flex items-center text-xs font-medium text-gray-600">
+                        → En progreso
                       </div>
                     )}
                   </div>
