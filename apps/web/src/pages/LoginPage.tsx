@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useAuthStore } from '../store/auth'
+import HeroSection from '../components/HeroSection'
 import {
   TypeformContainer,
   TypeformCard,
@@ -52,7 +53,10 @@ export default function LoginPage() {
   }
 
   return (
-    <TypeformContainer gradient="primary">
+    <div className="relative min-h-screen bg-white overflow-hidden">
+      <HeroSection />
+      <div className="relative z-10">
+      <TypeformContainer gradient="neutral">
       {/* Welcome Step */}
       {step === 'welcome' && (
         <TypeformCard>
@@ -190,6 +194,8 @@ export default function LoginPage() {
           </div>
         </TypeformCard>
       )}
-    </TypeformContainer>
+      </TypeformContainer>
+      </div>
+    </div>
   )
 }
