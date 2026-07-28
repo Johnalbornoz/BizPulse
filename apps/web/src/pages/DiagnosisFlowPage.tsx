@@ -30,73 +30,65 @@ export default function DiagnosisFlowPage() {
       number: 1,
       title: 'Business Discovery',
       description: 'Recopilar contexto empresarial: datos básicos, documentos, entrevistas',
-      icon: '→',
       status: 'in_progress',
       route: `/discovery/${diagnosticoId}`,
-      gradient: 'from-blue-400 to-aibo-blue'
+      color: 'border-aibo-blue'
     },
     {
       number: 2,
       title: 'Business Classification',
       description: 'IA clasifica industria, modelo de negocio y modelo operativo',
-      icon: '▬',
       status: 'pending',
       route: `/classification/${diagnosticoId}`,
-      gradient: 'from-cyan-400 to-blue-500'
+      color: 'border-blue-500'
     },
     {
       number: 3,
       title: 'Framework Selection',
       description: 'Seleccionar marco de evaluación (11 pilares de excelencia)',
-      icon: '▲',
       status: 'pending',
       route: `/framework/${diagnosticoId}`,
-      gradient: 'from-purple-400 to-indigo-500'
+      color: 'border-purple-500'
     },
     {
       number: 4,
       title: 'Adaptive Assessment',
       description: 'Cuestionario adaptativo: responder preguntas por pilar',
-      icon: '◆',
       status: 'pending',
       route: `/assessment/${diagnosticoId}`,
-      gradient: 'from-indigo-400 to-purple-500'
+      color: 'border-indigo-500'
     },
     {
       number: 5,
       title: 'Business Excellence Diagnosis',
       description: 'IA sugiere scores en dos ejes; Consultor valida',
-      icon: '💎',
       status: 'pending',
       route: `/validation/${diagnosticoId}`,
-      gradient: 'from-pink-400 to-rose-500'
+      color: 'border-rose-500'
     },
     {
       number: 6,
       title: 'Gap Analysis + Financial Impact',
       description: 'Cada brecha cuantificada en ROI y impacto financiero',
-      icon: '💰',
       status: 'pending',
       route: `/financial/${diagnosticoId}`,
-      gradient: 'from-amber-400 to-orange-500'
+      color: 'border-orange-500'
     },
     {
       number: 7,
       title: 'Transformation Roadmap',
       description: 'Priorizar iniciativas por impacto/esfuerzo',
-      icon: '🗺️',
       status: 'pending',
       route: `/roadmap/${diagnosticoId}`,
-      gradient: 'from-emerald-400 to-teal-500'
+      color: 'border-teal-500'
     },
     {
       number: 8,
       title: 'Sales & Consulting Proposal',
       description: 'Generar SOW estructurado en fases (30d, 90d, 180d, 12-24m)',
-      icon: '🚀',
       status: 'pending',
       route: `/proposal/${diagnosticoId}`,
-      gradient: 'from-aibo-signal to-emerald-600'
+      color: 'border-emerald-600'
     }
   ]
 
@@ -144,23 +136,23 @@ export default function DiagnosisFlowPage() {
             >
               <div
                 className={`
-                  h-full bg-gradient-to-br ${phase.gradient}
-                  rounded-2xl p-6 text-white
-                  shadow-lg group-hover:shadow-xl
+                  h-full bg-white border-l-4 ${phase.color}
+                  rounded-lg p-6 text-black
+                  shadow-sm hover:shadow-md
                   transition-all duration-300
-                  ${phase.number === currentPhase ? 'ring-2 ring-white ring-offset-4 ring-offset-aibo-cloud' : ''}
-                  ${(isConsultor || phase.number === 1) && phase.number !== currentPhase ? 'group-hover:scale-105 group-hover:-translate-y-1' : ''}
+                  ${phase.number === currentPhase ? 'ring-1 ring-gray-medium' : ''}
+                  ${(isConsultor || phase.number === 1) && phase.number !== currentPhase ? 'group-hover:translate-x-1' : ''}
                 `}
               >
                 <div className="flex items-start gap-4">
                   {/* Phase Number */}
                   <div className="flex-shrink-0">
                     <div className={`
-                      w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl
-                      bg-white/20 backdrop-blur-sm
-                      border-2 border-white/40
+                      w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm
+                      bg-gray-light border border-gray-medium
+                      text-gray-dark
                     `}>
-                      {phase.icon}
+                      {phase.number}
                     </div>
                   </div>
 
@@ -178,23 +170,17 @@ export default function DiagnosisFlowPage() {
                       {phase.description}
                     </p>
                     {phase.status === 'completed' && (
-                      <div className="mt-3 inline-flex items-center gap-1 bg-white/20 px-3 py-1 rounded-full text-sm font-semibold">
-                        ✓ Completado
+                      <div className="mt-3 inline-flex items-center gap-1 bg-gray-light px-3 py-1 rounded-full text-xs font-semibold text-gray-dark border border-gray-medium">
+                        Completado
                       </div>
                     )}
                     {phase.status === 'in_progress' && (
-                      <div className="mt-3 inline-flex items-center gap-1 bg-white/30 px-3 py-1 rounded-full text-sm font-semibold">
-                        ⚡ En progreso
+                      <div className="mt-3 inline-flex items-center gap-1 bg-gray-light px-3 py-1 rounded-full text-xs font-semibold text-gray-dark border border-gray-medium">
+                        En progreso
                       </div>
                     )}
                   </div>
 
-                  {/* Arrow */}
-                  {(isConsultor || phase.number === 1) && (
-                    <div className="flex-shrink-0 text-2xl opacity-60 group-hover:opacity-100 group-hover:translate-x-1 transition-all">
-                      →
-                    </div>
-                  )}
                 </div>
               </div>
             </button>
