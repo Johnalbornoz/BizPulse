@@ -740,6 +740,7 @@ export default function BusinessDiscoveryPage() {
           </button>
         )}
       </div>
+      </div>
     </div>
   )
 }
