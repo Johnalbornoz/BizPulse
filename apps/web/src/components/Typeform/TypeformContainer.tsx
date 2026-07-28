@@ -9,7 +9,7 @@ const gradients = {
   primary: 'bg-white',
   secondary: 'bg-white',
   accent: 'bg-white',
-  neutral: 'bg-white',
+  neutral: 'bg-transparent',
 }
 
 export default function TypeformContainer({

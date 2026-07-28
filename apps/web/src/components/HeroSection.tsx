@@ -1,31 +1,31 @@
 export default function HeroSection() {
   return (
-    <div className="absolute inset-0 overflow-hidden bg-gradient-to-br from-white via-blue-50 to-white">
+    <div className="absolute inset-0 overflow-hidden bg-gradient-to-br from-white via-sky-100 to-blue-50">
       {/* Top right glow - vibrant */}
-      <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-radial from-sky-300 via-sky-200 to-transparent opacity-40 blur-3xl" />
+      <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-radial from-sky-400 via-sky-300 to-transparent opacity-60 blur-3xl" />
 
       {/* Bottom left glow */}
-      <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-radial from-cyan-200 via-blue-100 to-transparent opacity-35 blur-3xl" />
+      <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-radial from-cyan-300 via-blue-200 to-transparent opacity-55 blur-3xl" />
 
       {/* Center accent orb */}
-      <div className="absolute top-1/2 right-1/4 w-64 h-64 bg-gradient-radial from-sky-200 via-sky-100 to-transparent opacity-30 blur-2xl transform -translate-y-1/2" />
+      <div className="absolute top-1/2 right-1/4 w-72 h-72 bg-gradient-radial from-sky-300 via-sky-200 to-transparent opacity-50 blur-2xl transform -translate-y-1/2" />
 
       {/* SVG visualization */}
       <svg
-        className="absolute inset-0 w-full h-full opacity-60"
+        className="absolute inset-0 w-full h-full opacity-85"
         viewBox="0 0 1200 800"
         preserveAspectRatio="xMidYMid slice"
         xmlns="http://www.w3.org/2000/svg"
       >
         <defs>
           <linearGradient id="curve1" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#0ea5e9" stopOpacity="0.6" />
-            <stop offset="100%" stopColor="#06b6d4" stopOpacity="0.3" />
+            <stop offset="0%" stopColor="#0ea5e9" stopOpacity="0.85" />
+            <stop offset="100%" stopColor="#06b6d4" stopOpacity="0.6" />
           </linearGradient>
 
           <linearGradient id="curve2" x1="0%" y1="100%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#0369a1" stopOpacity="0.5" />
-            <stop offset="100%" stopColor="#0ea5e9" stopOpacity="0.25" />
+            <stop offset="0%" stopColor="#0369a1" stopOpacity="0.8" />
+            <stop offset="100%" stopColor="#0ea5e9" stopOpacity="0.5" />
           </linearGradient>
         </defs>
 
