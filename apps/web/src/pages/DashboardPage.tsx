@@ -17,17 +17,17 @@ interface Diagnostico {
 const stateConfig = {
   discovery: {
     label: 'Descubrimiento',
-    icon: '🔍',
+    icon: '→',
     color: 'from-aibo-blue to-aibo-blue-light',
   },
   clasificacion: {
     label: 'Clasificación',
-    icon: '📋',
+    icon: '◆',
     color: 'from-yellow-400 to-yellow-600',
   },
   assessment: {
     label: 'Evaluación',
-    icon: '📊',
+    icon: '◆',
     color: 'from-aibo-signal to-emerald-500',
   },
   validacion: {
@@ -37,12 +37,12 @@ const stateConfig = {
   },
   finalizando: {
     label: 'Finalizando',
-    icon: '⏳',
+    icon: '◆',
     color: 'from-purple-400 to-purple-600',
   },
   finalizado: {
     label: 'Finalizado',
-    icon: '🎉',
+    icon: '✓',
     color: 'from-aibo-signal to-emerald-600',
   },
 }
@@ -190,7 +190,7 @@ export default function DashboardPage() {
           <div className="space-y-6">
             <div className="flex justify-center">
               <div className="relative w-24 h-24 rounded-full bg-gradient-to-br from-aibo-blue to-aibo-signal shadow-2xl flex items-center justify-center">
-                <span className="text-5xl animate-pulse-soft">📊</span>
+                <span className="text-2xl font-bold text-white">◆</span>
               </div>
             </div>
             <div className="space-y-4">
@@ -211,7 +211,7 @@ export default function DashboardPage() {
               loading={loading}
               className="animate-fadeIn"
             >
-              Crear Diagnóstico ✨
+              Crear Diagnóstico
             </TypeformButton>
 
             {diagnosticos.length > 0 && (
@@ -235,22 +235,22 @@ export default function DashboardPage() {
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
-                <div className="p-4 rounded-xl bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200">
-                  <div className="text-2xl mb-2">🎯</div>
-                  <p className="font-medium text-aibo-navy mb-1">Descubre</p>
-                  <p className="text-aibo-slate text-xs">Identifica áreas clave</p>
+                <div className="p-6 rounded-lg bg-white border border-gray-medium">
+                  <div className="text-xl mb-3 font-bold text-black">01</div>
+                  <p className="font-semibold text-black mb-1">Descubre</p>
+                  <p className="text-gray-dark text-xs">Identifica áreas clave</p>
                 </div>
 
-                <div className="p-4 rounded-xl bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-200">
-                  <div className="text-2xl mb-2">📈</div>
-                  <p className="font-medium text-aibo-navy mb-1">Analiza</p>
-                  <p className="text-aibo-slate text-xs">Evalúa desempeño</p>
+                <div className="p-6 rounded-lg bg-white border border-gray-medium">
+                  <div className="text-xl mb-3 font-bold text-black">02</div>
+                  <p className="font-semibold text-black mb-1">Analiza</p>
+                  <p className="text-gray-dark text-xs">Evalúa desempeño</p>
                 </div>
 
-                <div className="p-4 rounded-xl bg-gradient-to-br from-purple-50 to-pink-50 border border-purple-200">
-                  <div className="text-2xl mb-2">💡</div>
-                  <p className="font-medium text-aibo-navy mb-1">Actúa</p>
-                  <p className="text-aibo-slate text-xs">Implementa mejoras</p>
+                <div className="p-6 rounded-lg bg-white border border-gray-medium">
+                  <div className="text-xl mb-3 font-bold text-black">03</div>
+                  <p className="font-semibold text-black mb-1">Actúa</p>
+                  <p className="text-gray-dark text-xs">Implementa mejoras</p>
                 </div>
               </div>
             </div>
