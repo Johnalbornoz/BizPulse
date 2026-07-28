@@ -71,13 +71,13 @@ export default function FinancialImpactPage() {
 
         <div className="bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-lg shadow-lg p-8">
           <h3 className="text-sm font-semibold opacity-90 mb-2">ROI Estimado</h3>
-          <div className="text-4xl font-bold mb-2">{summary.roi_porcentaje}%</div>
+          
           <p className="text-sm opacity-75">Del ingresos anual</p>
         </div>
 
         <div className="bg-gradient-to-br from-purple-500 to-purple-600 text-white rounded-lg shadow-lg p-8">
           <h3 className="text-sm font-semibold opacity-90 mb-2">Brechas Identificadas</h3>
-          <div className="text-4xl font-bold mb-2">{summary.cantidad_brechas}</div>
+          
           <p className="text-sm opacity-75">Con impacto cuantificable</p>
         </div>
       </div>

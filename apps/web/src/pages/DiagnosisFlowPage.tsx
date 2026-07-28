@@ -110,7 +110,7 @@ export default function DiagnosisFlowPage() {
           <div className="text-center space-y-6">
             <div className="flex justify-center">
               <div className="relative w-20 h-20 rounded-full bg-gradient-to-br from-aibo-blue to-aibo-signal shadow-2xl flex items-center justify-center">
-                <span className="text-4xl">▲</span>
+                
               </div>
             </div>
             <div>
@@ -207,7 +207,7 @@ export default function DiagnosisFlowPage() {
             {!isConsultor && (
               <div>
                 <div className="flex items-start gap-3 mb-3">
-                  <span className="text-2xl">👤</span>
+                  
                   <div>
                     <h4 className="font-bold text-lg text-aibo-navy mb-1">Vista de CEO/Ejecutivo</h4>
                     <p className="text-aibo-slate">
@@ -221,7 +221,7 @@ export default function DiagnosisFlowPage() {
             {isConsultor && (
               <div>
                 <div className="flex items-start gap-3">
-                  <span className="text-2xl">🎓</span>
+                  
                   <div>
                     <h4 className="font-bold text-lg text-aibo-navy mb-1">Vista de Consultor</h4>
                     <p className="text-aibo-slate">

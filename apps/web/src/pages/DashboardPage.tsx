@@ -17,32 +17,26 @@ interface Diagnostico {
 const stateConfig = {
   discovery: {
     label: 'Descubrimiento',
-    icon: '→',
     color: 'from-aibo-blue to-aibo-blue-light',
   },
   clasificacion: {
     label: 'Clasificación',
-    icon: '◆',
     color: 'from-yellow-400 to-yellow-600',
   },
   assessment: {
     label: 'Evaluación',
-    icon: '◆',
     color: 'from-aibo-signal to-emerald-500',
   },
   validacion: {
     label: 'Validación',
-    icon: '✓',
     color: 'from-orange-400 to-orange-600',
   },
   finalizando: {
     label: 'Finalizando',
-    icon: '◆',
     color: 'from-purple-400 to-purple-600',
   },
   finalizado: {
     label: 'Finalizado',
-    icon: '✓',
     color: 'from-aibo-signal to-emerald-600',
   },
 }
@@ -143,7 +137,6 @@ export default function DashboardPage() {
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-2">
-                          <span className="text-2xl">{state.icon}</span>
                           <span className="font-semibold text-sm opacity-90">
                             {state.label}
                           </span>
@@ -189,8 +182,7 @@ export default function DashboardPage() {
           {/* Welcome Section */}
           <div className="space-y-6">
             <div className="flex justify-center">
-              <div className="relative w-24 h-24 rounded-full bg-gradient-to-br from-aibo-blue to-aibo-signal shadow-2xl flex items-center justify-center">
-                <span className="text-2xl font-bold text-white">◆</span>
+              <div className="relative w-20 h-20 rounded-full border-2 border-aibo-blue bg-transparent flex items-center justify-center">
               </div>
             </div>
             <div className="space-y-4">

@@ -7,10 +7,10 @@ interface AdminLayoutProps {
 }
 
 const NAV_ITEMS = [
-  { path: '/admin', icon: '◆', label: 'Dashboard' },
-  { path: '/admin/empresas', icon: '■', label: 'Empresas' },
-  { path: '/admin/usuarios', icon: '●', label: 'Usuarios' },
-  { path: '/admin/segmentos', icon: '▲', label: 'Segmentos' }
+  { path: '/admin', label: 'Dashboard' },
+  { path: '/admin/empresas', label: 'Empresas' },
+  { path: '/admin/usuarios', label: 'Usuarios' },
+  { path: '/admin/segmentos', label: 'Segmentos' }
 ]
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
@@ -57,15 +57,14 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             <button
               key={item.path}
               onClick={() => navigate(item.path)}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-300 ${
+              className={`w-full flex items-center px-4 py-3 rounded-lg transition-all duration-300 text-sm font-medium ${
                 location.pathname === item.path
                   ? 'bg-black text-white'
                   : 'text-black hover:bg-gray-light'
               }`}
               title={!sidebarOpen ? item.label : undefined}
             >
-              <span className="text-lg font-bold">{item.icon}</span>
-              {sidebarOpen && <span className="font-medium text-sm">{item.label}</span>}
+              {sidebarOpen ? item.label : item.label.charAt(0)}
             </button>
           ))}
         </nav>
