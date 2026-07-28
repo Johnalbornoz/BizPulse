@@ -1,0 +1,293 @@
+EJEMPLOS DE USO - COMPONENTES TYPEFORM
+=====================================
+
+Para usar los componentes Typeform en tus páginas, importalos así:
+
+import {
+  TypeformContainer,
+  TypeformCard,
+  TypeformHeading,
+  TypeformInput,
+  TypeformButton,
+  TypeformSelect,
+  TypeformCheckbox,
+  TypeformTextarea,
+  TypeformRadioGroup,
+  TypeformGridOptions,
+  TypeformProgressBar,
+  TypeformPhaseContainer,
+  TypeformStatCard,
+} from '../components/Typeform'
+
+---
+
+EJEMPLO 1: Página de Fase Conversacional
+=========================================
+
+<TypeformPhaseContainer
+  phaseNumber={1}
+  totalPhases={8}
+  title="Datos Básicos"
+  subtitle="Información de tu empresa"
+  onNext={handleNext}
+  onBack={handleBack}
+>
+  <TypeformInput
+    label="Nombre de Empresa"
+    value={name}
+    onChange={(e) => setName(e.target.value)}
+    placeholder="Ingresa el nombre..."
+    error={errors.name}
+  />
+
+  <TypeformSelect
+    label="País"
+    options={[
+      { value: 'MX', label: 'México' },
+      { value: 'CO', label: 'Colombia' },
+    ]}
+    value={country}
+    onChange={(e) => setCountry(e.target.value)}
+  />
+
+  <TypeformCheckbox
+    label="¿Tienes CRM?"
+    checked={hasCRM}
+    onChange={(e) => setHasCRM(e.target.checked)}
+  />
+
+  <TypeformTextarea
+    label="Descripción"
+    value={description}
+    onChange={(e) => setDescription(e.target.value)}
+    maxLength={500}
+    showCharCount
+  />
+
+  <TypeformRadioGroup
+    label="Tamaño de Empresa"
+    options={[
+      { value: 'small', label: 'Pequeña', description: '<50 empleados' },
+      { value: 'medium', label: 'Mediana', description: '50-500 empleados' },
+    ]}
+    value={size}
+    onChange={setSize}
+  />
+</TypeformPhaseContainer>
+
+---
+
+EJEMPLO 2: Dashboard con Cards
+==============================
+
+<TypeformContainer gradient="primary">
+  <TypeformCard>
+    <TypeformHeading>Bienvenido</TypeformHeading>
+    <p>Tu contenido aquí</p>
+  </TypeformCard>
+
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <TypeformStatCard
+      icon="📊"
+      title="Diagnósticos"
+      value={5}
+      gradient="from-aibo-blue to-aibo-signal"
+    />
+
+    <TypeformStatCard
+      icon="✓"
+      title="Completados"
+      value={2}
+      gradient="from-aibo-signal to-emerald-500"
+    />
+
+    <TypeformStatCard
+      icon="⏳"
+      title="En Progreso"
+      value={3}
+      gradient="from-yellow-400 to-orange-500"
+    />
+  </div>
+</TypeformContainer>
+
+---
+
+EJEMPLO 3: Grid de Opciones Seleccionables
+===========================================
+
+<TypeformGridOptions
+  label="¿Cuál es tu rol?"
+  options={[
+    { value: 'ceo', label: 'CEO/Ejecutivo', icon: '👔', description: 'Toma decisiones estratégicas' },
+    { value: 'manager', label: 'Manager', icon: '📋', description: 'Lidera equipos' },
+    { value: 'staff', label: 'Staff', icon: '👥', description: 'Ejecuta tareas' },
+  ]}
+  value={selectedRole}
+  onChange={setSelectedRole}
+  columns={2}
+/>
+
+---
+
+EJEMPLO 4: Form Conversacional
+==============================
+
+function MyFormPage() {
+  const [step, setStep] = useState<'welcome' | 'form' | 'confirm'>('welcome')
+  const [name, setName] = useState('')
+
+  const handleNext = () => {
+    if (step === 'welcome') setStep('form')
+    else if (step === 'form' && name) setStep('confirm')
+  }
+
+  return (
+    <TypeformContainer>
+      {step === 'welcome' && (
+        <TypeformCard>
+          <TypeformHeading>¡Hola!</TypeformHeading>
+          <p>Responde algunas preguntas</p>
+          <TypeformButton onClick={handleNext}>Comenzar →</TypeformButton>
+        </TypeformCard>
+      )}
+
+      {step === 'form' && (
+        <TypeformCard>
+          <TypeformHeading>¿Cuál es tu nombre?</TypeformHeading>
+          <TypeformInput
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Tu nombre..."
+            autoFocus
+          />
+          <div className="flex gap-4">
+            <TypeformButton variant="outline" onClick={() => setStep('welcome')}>
+              Atrás
+            </TypeformButton>
+            <TypeformButton onClick={handleNext} disabled={!name}>
+              Continuar →
+            </TypeformButton>
+          </div>
+        </TypeformCard>
+      )}
+
+      {step === 'confirm' && (
+        <TypeformCard>
+          <TypeformHeading>¡Listo!</TypeformHeading>
+          <p>Tu nombre es: {name}</p>
+        </TypeformCard>
+      )}
+    </TypeformContainer>
+  )
+}
+
+---
+
+COLORES DISPONIBLES (Variables CSS)
+===================================
+
+--color-aibo-blue: #286CBE (Azul Principal)
+--color-aibo-navy: #1D3C6A (Azul Marino)
+--color-aibo-blue-light: #4C8AD6 (Azul Claro)
+--color-aibo-signal: #12B8A6 (Turquesa Signal)
+--color-aibo-ink: #0E2038 (Tinta Oscura)
+--color-aibo-cloud: #F6F9FC (Cloud Blanco)
+--color-aibo-slate: #5B6B7E (Slate Gris)
+--color-aibo-mist: #E3EAF3 (Mist)
+--color-aibo-line: #CBD7E5 (Line)
+
+Úsalos en CSS custom properties:
+  background-color: var(--color-aibo-blue);
+
+O como clases de Tailwind:
+  className="bg-aibo-blue text-aibo-white"
+
+---
+
+GRADIENTES VIBRANTES
+====================
+
+Para cards y botones, usa estos gradientes:
+
+from-aibo-blue to-aibo-signal
+from-aibo-navy to-aibo-blue
+from-blue-400 to-aibo-blue
+from-purple-400 to-indigo-500
+from-pink-400 to-rose-500
+from-amber-400 to-orange-500
+from-emerald-400 to-teal-500
+from-aibo-signal to-emerald-600
+
+Aplícalos con Tailwind:
+  className="bg-gradient-to-br from-aibo-blue to-aibo-signal"
+
+---
+
+ANIMACIONES DISPONIBLES
+=======================
+
+animate-fadeIn        - Aparición suave
+animate-slideIn       - Deslización desde abajo
+animate-slideInFromLeft  - Deslización desde izquierda
+animate-slideInFromRight - Deslización desde derecha
+animate-scaleIn       - Escalamiento suave
+animate-pulse-soft    - Parpadeo suave
+animate-shimmer       - Brillo deslizante
+
+Úsalas así:
+  className="animate-slideIn"
+  style={{ animationDelay: '100ms' }}
+
+---
+
+VARIANTES DE BOTONES
+====================
+
+<TypeformButton variant="primary" size="lg">
+  Botón Primario
+</TypeformButton>
+
+<TypeformButton variant="secondary" size="md">
+  Botón Secundario
+</TypeformButton>
+
+<TypeformButton variant="outline" size="sm">
+  Botón Contorno
+</TypeformButton>
+
+<TypeformButton loading>
+  Cargando...
+</TypeformButton>
+
+Variantes: primary | secondary | outline
+Tamaños: sm | md | lg
+
+---
+
+TIPS Y MEJORES PRÁCTICAS
+========================
+
+1. Siempre usa TypeformContainer para envolver tus páginas
+2. Agrupa el contenido en TypeformCard
+3. Usa TypeformHeading + subtitle para explicar cada paso
+4. Una pregunta/sección importante por pantalla
+5. Deja espacios en blanco generosos (espaciado)
+6. Usa los gradientes vibrantes para diferenciar secciones
+7. Agrega animaciones con delays escalonados:
+   style={{ animationDelay: `${index * 50}ms` }}
+8. Valida campos antes de permitir avanzar
+9. Usa TypeformPhaseContainer para páginas de diagnóstico
+
+---
+
+PARA ACTUALIZAR OTRAS PÁGINAS:
+
+1. Importa los componentes Typeform necesarios
+2. Reemplaza el contenedor principal con TypeformContainer
+3. Agrupa contenido en TypeformCard
+4. Reemplaza inputs nativos con TypeformInput, etc.
+5. Usa TypeformPhaseContainer para páginas de fase
+6. Agrega animaciones con animate-* classes
+7. Usa los gradientes vibrantes para los títulos
+
+Ver: BusinessDiscoveryPage.improved.tsx para un ejemplo completo.

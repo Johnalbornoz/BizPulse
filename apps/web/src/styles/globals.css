@@ -2,14 +2,217 @@
 @tailwind components;
 @tailwind utilities;
 
+/* CSS Variables for AiBo Colors */
+:root {
+  --color-aibo-blue: #286CBE;
+  --color-aibo-navy: #1D3C6A;
+  --color-aibo-blue-light: #4C8AD6;
+  --color-aibo-signal: #12B8A6;
+  --color-aibo-ink: #0E2038;
+  --color-aibo-cloud: #F6F9FC;
+  --color-aibo-slate: #5B6B7E;
+  --color-aibo-mist: #E3EAF3;
+  --color-aibo-line: #CBD7E5;
+}
+
 * {
   @apply box-border;
 }
 
 body {
-  @apply bg-neutral-50 text-neutral-900;
+  @apply bg-aibo-cloud text-aibo-ink;
+  font-feature-settings: "rlig" 1, "calt" 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 html {
   scroll-behavior: smooth;
+}
+
+/* Typeform Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse-soft {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+/* Tailwind Animation Utilities */
+@layer utilities {
+  .animate-fadeIn {
+    animation: fadeIn 0.5s ease-out;
+  }
+
+  .animate-slideIn {
+    animation: slideIn 0.6s ease-out;
+  }
+
+  .animate-slideInFromLeft {
+    animation: slideInFromLeft 0.5s ease-out;
+  }
+
+  .animate-slideInFromRight {
+    animation: slideInFromRight 0.5s ease-out;
+  }
+
+  .animate-scaleIn {
+    animation: scaleIn 0.5s ease-out;
+  }
+
+  .animate-pulse-soft {
+    animation: pulse-soft 2s ease-in-out infinite;
+  }
+
+  .animate-shimmer {
+    background-image: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0),
+      rgba(255, 255, 255, 0.3),
+      rgba(255, 255, 255, 0)
+    );
+    animation: shimmer 3s infinite;
+  }
+}
+
+/* Glass Morphism Effect */
+@layer utilities {
+  .backdrop-blur-md-glass {
+    @apply backdrop-blur-md bg-white/80;
+  }
+
+  .glass-card {
+    @apply backdrop-blur-sm bg-white/95 border border-white/20;
+  }
+}
+
+/* Smooth Transitions */
+@layer utilities {
+  .transition-smooth {
+    @apply transition-all duration-300 ease-out;
+  }
+
+  .transition-bounce {
+    @apply transition-all duration-300 ease-out;
+  }
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-aibo-cloud;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-aibo-line rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-aibo-slate;
+}
+
+/* Selection Styling */
+::selection {
+  @apply bg-aibo-blue text-white;
+}
+
+/* Focus Visible Ring */
+:focus-visible {
+  @apply outline-none ring-2 ring-aibo-blue ring-offset-2;
+}
+
+/* Smooth Gradient Text */
+@layer components {
+  .gradient-text {
+    @apply bg-gradient-to-r from-aibo-navy via-aibo-blue to-aibo-signal bg-clip-text text-transparent;
+  }
+
+  .gradient-bg {
+    @apply bg-gradient-to-br from-aibo-cloud via-blue-50 to-white;
+  }
+}
+
+/* Typography Refinements */
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-bold;
+  }
+
+  p {
+    @apply font-sans leading-relaxed;
+  }
+
+  input, textarea, select {
+    @apply font-sans;
+  }
 }

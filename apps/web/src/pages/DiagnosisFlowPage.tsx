@@ -1,13 +1,22 @@
 import { useParams, useNavigate } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useAuthStore } from '../store/auth'
+import {
+  TypeformContainer,
+  TypeformCard,
+  TypeformHeading,
+  TypeformButton,
+  TypeformProgressBar,
+} from '../components/Typeform'
 
 interface DiagnosisPhase {
   number: number
   title: string
   description: string
+  icon: string
   status: 'pending' | 'in_progress' | 'completed'
   route: string
+  gradient: string
 }
 
 export default function DiagnosisFlowPage() {
@@ -21,156 +30,220 @@ export default function DiagnosisFlowPage() {
       number: 1,
       title: 'Business Discovery',
       description: 'Recopilar contexto empresarial: datos básicos, documentos, entrevistas',
+      icon: '🔍',
       status: 'in_progress',
-      route: `/discovery/${diagnosticoId}`
+      route: `/discovery/${diagnosticoId}`,
+      gradient: 'from-blue-400 to-aibo-blue'
     },
     {
       number: 2,
       title: 'Business Classification',
       description: 'IA clasifica industria, modelo de negocio y modelo operativo',
+      icon: '📋',
       status: 'pending',
-      route: `/classification/${diagnosticoId}`
+      route: `/classification/${diagnosticoId}`,
+      gradient: 'from-cyan-400 to-blue-500'
     },
     {
       number: 3,
       title: 'Framework Selection',
       description: 'Seleccionar marco de evaluación (11 pilares de excelencia)',
+      icon: '🎯',
       status: 'pending',
-      route: `/framework/${diagnosticoId}`
+      route: `/framework/${diagnosticoId}`,
+      gradient: 'from-purple-400 to-indigo-500'
     },
     {
       number: 4,
       title: 'Adaptive Assessment',
       description: 'Cuestionario adaptativo: responder preguntas por pilar',
+      icon: '📊',
       status: 'pending',
-      route: `/assessment/${diagnosticoId}`
+      route: `/assessment/${diagnosticoId}`,
+      gradient: 'from-indigo-400 to-purple-500'
     },
     {
       number: 5,
       title: 'Business Excellence Diagnosis',
       description: 'IA sugiere scores en dos ejes; Consultor valida',
+      icon: '💎',
       status: 'pending',
-      route: `/validation/${diagnosticoId}`
+      route: `/validation/${diagnosticoId}`,
+      gradient: 'from-pink-400 to-rose-500'
     },
     {
       number: 6,
       title: 'Gap Analysis + Financial Impact',
       description: 'Cada brecha cuantificada en ROI y impacto financiero',
+      icon: '💰',
       status: 'pending',
-      route: `/financial/${diagnosticoId}`
+      route: `/financial/${diagnosticoId}`,
+      gradient: 'from-amber-400 to-orange-500'
     },
     {
       number: 7,
       title: 'Transformation Roadmap',
       description: 'Priorizar iniciativas por impacto/esfuerzo',
+      icon: '🗺️',
       status: 'pending',
-      route: `/roadmap/${diagnosticoId}`
+      route: `/roadmap/${diagnosticoId}`,
+      gradient: 'from-emerald-400 to-teal-500'
     },
     {
       number: 8,
       title: 'Sales & Consulting Proposal',
       description: 'Generar SOW estructurado en fases (30d, 90d, 180d, 12-24m)',
+      icon: '🚀',
       status: 'pending',
-      route: `/proposal/${diagnosticoId}`
+      route: `/proposal/${diagnosticoId}`,
+      gradient: 'from-aibo-signal to-emerald-600'
     }
   ]
 
   const isConsultor = user?.rol === 'Consultor' || user?.rol === 'SuperAdmin'
 
   return (
-    <div className="space-y-8">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-aibo-blue to-aibo-navy rounded-lg shadow-lg p-8 text-white">
-        <div className="flex justify-between items-center">
-          <div>
-            <h1 className="text-3xl font-bold font-display">Diagnóstico de Excelencia Empresarial</h1>
-            <p className="text-lg opacity-90 mt-2">Flujo de 8 fases hacia la transformación</p>
-          </div>
-          <div className="text-right">
-            <p className="text-2xl font-bold">Fase {currentPhase} de 8</p>
-            <p className="text-sm opacity-75 mt-1">{Math.round((currentPhase / 8) * 100)}% completado</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Progress Bar */}
-      <div className="bg-white rounded-lg shadow-md p-6">
-        <div className="w-full bg-aibo-mist rounded-full h-2">
-          <div
-            className="bg-gradient-to-r from-aibo-blue to-aibo-signal h-2 rounded-full transition-all"
-            style={{ width: `${(currentPhase / 8) * 100}%` }}
-          />
-        </div>
-        <div className="flex justify-between text-xs text-aibo-slate mt-2">
-          <span>Inicio</span>
-          <span>Propuesta de Consultoría</span>
-        </div>
-      </div>
-
-      {/* Phases Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {phases.map((phase) => (
-          <button
-            key={phase.number}
-            onClick={() => navigate(phase.route)}
-            disabled={!isConsultor && phase.number > 1}
-            className={`
-              p-6 rounded-lg border-2 transition-all text-left
-              ${phase.number === currentPhase
-                ? 'bg-aibo-blue/10 border-aibo-blue shadow-lg'
-                : phase.status === 'completed'
-                  ? 'bg-aibo-signal/10 border-aibo-signal'
-                  : 'bg-white border-aibo-line hover:shadow-md'
-              }
-              ${(!isConsultor && phase.number > 1) ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
-            `}
-          >
-            <div className="flex items-start gap-4">
-              <div className={`
-                w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 font-bold
-                ${phase.number === currentPhase
-                  ? 'bg-aibo-blue text-white'
-                  : phase.status === 'completed'
-                    ? 'bg-aibo-signal text-white'
-                    : 'bg-aibo-mist text-aibo-slate'
-                }
-              `}>
-                {phase.number}
-              </div>
-              <div className="flex-1">
-                <h3 className="text-lg font-semibold text-aibo-navy font-display">
-                  {phase.title}
-                </h3>
-                <p className="text-sm text-aibo-slate mt-1">{phase.description}</p>
-                {phase.status === 'completed' && (
-                  <span className="inline-block mt-2 text-xs bg-aibo-signal text-white px-2 py-1 rounded">
-                    ✓ Completado
-                  </span>
-                )}
+    <TypeformContainer gradient="secondary">
+      <div className="space-y-8">
+        {/* Header */}
+        <TypeformCard>
+          <div className="text-center space-y-6">
+            <div className="flex justify-center">
+              <div className="relative w-20 h-20 rounded-full bg-gradient-to-br from-aibo-blue to-aibo-signal shadow-2xl flex items-center justify-center">
+                <span className="text-4xl">🎯</span>
               </div>
             </div>
-          </button>
-        ))}
+            <div>
+              <TypeformHeading>Diagnóstico de Excelencia</TypeformHeading>
+              <p className="text-xl text-aibo-slate">
+                Flujo de 8 fases hacia la transformación empresarial
+              </p>
+            </div>
+            <TypeformProgressBar current={currentPhase} total={8} />
+          </div>
+        </TypeformCard>
+
+        {/* Phases Grid */}
+        <div className="space-y-4">
+          {phases.map((phase, index) => (
+            <button
+              key={phase.number}
+              onClick={() => {
+                if (isConsultor || phase.number === 1) {
+                  setCurrentPhase(phase.number)
+                  navigate(phase.route)
+                }
+              }}
+              disabled={!isConsultor && phase.number > 1}
+              className={`
+                w-full group p-6 rounded-2xl transition-all duration-300
+                animate-slideIn
+                ${isConsultor || phase.number === 1 ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'}
+              `}
+              style={{ animationDelay: `${index * 50}ms` }}
+            >
+              <div
+                className={`
+                  h-full bg-gradient-to-br ${phase.gradient}
+                  rounded-2xl p-6 text-white
+                  shadow-lg group-hover:shadow-xl
+                  transition-all duration-300
+                  ${phase.number === currentPhase ? 'ring-2 ring-white ring-offset-4 ring-offset-aibo-cloud' : ''}
+                  ${(isConsultor || phase.number === 1) && phase.number !== currentPhase ? 'group-hover:scale-105 group-hover:-translate-y-1' : ''}
+                `}
+              >
+                <div className="flex items-start gap-4">
+                  {/* Phase Number */}
+                  <div className="flex-shrink-0">
+                    <div className={`
+                      w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl
+                      bg-white/20 backdrop-blur-sm
+                      border-2 border-white/40
+                    `}>
+                      {phase.icon}
+                    </div>
+                  </div>
+
+                  {/* Content */}
+                  <div className="flex-1 text-left">
+                    <div className="flex items-center justify-between mb-2">
+                      <h3 className="text-xl font-bold font-display">
+                        {phase.title}
+                      </h3>
+                      <span className="text-sm font-semibold opacity-90">
+                        Paso {phase.number}/8
+                      </span>
+                    </div>
+                    <p className="text-sm opacity-90 leading-relaxed">
+                      {phase.description}
+                    </p>
+                    {phase.status === 'completed' && (
+                      <div className="mt-3 inline-flex items-center gap-1 bg-white/20 px-3 py-1 rounded-full text-sm font-semibold">
+                        ✓ Completado
+                      </div>
+                    )}
+                    {phase.status === 'in_progress' && (
+                      <div className="mt-3 inline-flex items-center gap-1 bg-white/30 px-3 py-1 rounded-full text-sm font-semibold">
+                        ⚡ En progreso
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Arrow */}
+                  {(isConsultor || phase.number === 1) && (
+                    <div className="flex-shrink-0 text-2xl opacity-60 group-hover:opacity-100 group-hover:translate-x-1 transition-all">
+                      →
+                    </div>
+                  )}
+                </div>
+              </div>
+            </button>
+          ))}
+        </div>
+
+        {/* Role Information */}
+        <TypeformCard>
+          <div className="space-y-4">
+            {!isConsultor && (
+              <div>
+                <div className="flex items-start gap-3 mb-3">
+                  <span className="text-2xl">👤</span>
+                  <div>
+                    <h4 className="font-bold text-lg text-aibo-navy mb-1">Vista de CEO/Ejecutivo</h4>
+                    <p className="text-aibo-slate">
+                      Completa la Fase 1 (Business Discovery) respondiendo al cuestionario. El consultor se encargará del resto del diagnóstico.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {isConsultor && (
+              <div>
+                <div className="flex items-start gap-3">
+                  <span className="text-2xl">🎓</span>
+                  <div>
+                    <h4 className="font-bold text-lg text-aibo-navy mb-1">Vista de Consultor</h4>
+                    <p className="text-aibo-slate">
+                      Tienes acceso a todas las fases. Guía al cliente a través de Business Discovery, luego valida y enriquece cada fase.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </TypeformCard>
+
+        {/* Back Button */}
+        <div className="flex justify-center">
+          <TypeformButton
+            variant="outline"
+            onClick={() => navigate('/')}
+          >
+            ← Volver al Dashboard
+          </TypeformButton>
+        </div>
       </div>
-
-      {/* Info Box for Users */}
-      {!isConsultor && (
-        <div className="bg-aibo-cloud rounded-lg p-6 border border-aibo-line">
-          <h3 className="font-semibold text-aibo-navy mb-2">Vista de CEO/Ejecutivo</h3>
-          <p className="text-sm text-aibo-slate">
-            Completa la Fase 1 (Business Discovery) respondiendo al cuestionario. El consultor se encargará del resto del diagnóstico.
-          </p>
-        </div>
-      )}
-
-      {isConsultor && (
-        <div className="bg-aibo-blue/5 rounded-lg p-6 border border-aibo-blue/20">
-          <h3 className="font-semibold text-aibo-navy mb-2">Vista de Consultor</h3>
-          <p className="text-sm text-aibo-slate">
-            Tienes acceso a todas las fases. Guía al cliente a través de Business Discovery, luego valida y enriquece cada fase.
-          </p>
-        </div>
-      )}
-    </div>
+    </TypeformContainer>
   )
 }
