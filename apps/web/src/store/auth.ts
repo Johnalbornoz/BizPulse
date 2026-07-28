@@ -35,6 +35,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
 
       const { token, user } = await response.json()
       localStorage.setItem('token', token)
+      localStorage.setItem('user', JSON.stringify(user))
       set({ token, user, isAuthenticated: true })
     } catch (error) {
       console.error('Login error:', error)
@@ -44,13 +45,16 @@ export const useAuthStore = create<AuthStore>((set) => ({
 
   logout: () => {
     localStorage.removeItem('token')
+    localStorage.removeItem('user')
     set({ user: null, isAuthenticated: false, token: null })
   },
 
   checkAuth: () => {
     const token = localStorage.getItem('token')
+    const userStr = localStorage.getItem('user')
     if (token) {
-      set({ token, isAuthenticated: true })
+      const user = userStr ? JSON.parse(userStr) : null
+      set({ token, user, isAuthenticated: true })
     }
   },
 
