@@ -96,7 +96,7 @@ export default function AdminDashboard() {
                 </p>
               </div>
               <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center text-xl">
-                🏢
+                ■
               </div>
             </div>
             <button
@@ -118,7 +118,7 @@ export default function AdminDashboard() {
                 </p>
               </div>
               <div className="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center text-xl">
-                👥
+                ●
               </div>
             </div>
             <button
@@ -140,7 +140,7 @@ export default function AdminDashboard() {
                 </p>
               </div>
               <div className="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center text-xl">
-                🎯
+                ▲
               </div>
             </div>
             <button

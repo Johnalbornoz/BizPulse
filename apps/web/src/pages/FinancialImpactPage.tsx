@@ -84,7 +84,7 @@ export default function FinancialImpactPage() {
 
       {/* Key Insight */}
       <div className="bg-blue-50 border-l-4 border-blue-500 p-6 rounded">
-        <h3 className="font-bold text-blue-900 mb-2">💡 Insight Comercial Clave</h3>
+        <h3 className="font-bold text-blue-900 mb-2">◇ Insight Comercial Clave</h3>
         <p className="text-blue-800">
           El diagnóstico identifica {summary.cantidad_brechas} oportunidades de mejora con un impacto combinado de{' '}
           <strong>{formatCurrency(summary.total_impacto_usd)}</strong> anuales. Esto representa un{' '}
@@ -129,7 +129,7 @@ export default function FinancialImpactPage() {
 
       {/* Methodology Note */}
       <div className="bg-neutral-50 border border-neutral-200 rounded-lg p-6">
-        <h3 className="font-bold text-neutral-900 mb-3">📊 Metodología de Cálculo</h3>
+        <h3 className="font-bold text-neutral-900 mb-3">◆ Metodología de Cálculo</h3>
         <ul className="space-y-2 text-sm text-neutral-700">
           <li>
             <strong>Brechas:</strong> Diferencia entre score actual y objetivo (5/5 = excelencia)

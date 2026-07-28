@@ -30,7 +30,7 @@ export default function DiagnosisFlowPage() {
       number: 1,
       title: 'Business Discovery',
       description: 'Recopilar contexto empresarial: datos básicos, documentos, entrevistas',
-      icon: '🔍',
+      icon: '→',
       status: 'in_progress',
       route: `/discovery/${diagnosticoId}`,
       gradient: 'from-blue-400 to-aibo-blue'
@@ -39,7 +39,7 @@ export default function DiagnosisFlowPage() {
       number: 2,
       title: 'Business Classification',
       description: 'IA clasifica industria, modelo de negocio y modelo operativo',
-      icon: '📋',
+      icon: '▬',
       status: 'pending',
       route: `/classification/${diagnosticoId}`,
       gradient: 'from-cyan-400 to-blue-500'
@@ -48,7 +48,7 @@ export default function DiagnosisFlowPage() {
       number: 3,
       title: 'Framework Selection',
       description: 'Seleccionar marco de evaluación (11 pilares de excelencia)',
-      icon: '🎯',
+      icon: '▲',
       status: 'pending',
       route: `/framework/${diagnosticoId}`,
       gradient: 'from-purple-400 to-indigo-500'
@@ -57,7 +57,7 @@ export default function DiagnosisFlowPage() {
       number: 4,
       title: 'Adaptive Assessment',
       description: 'Cuestionario adaptativo: responder preguntas por pilar',
-      icon: '📊',
+      icon: '◆',
       status: 'pending',
       route: `/assessment/${diagnosticoId}`,
       gradient: 'from-indigo-400 to-purple-500'
@@ -110,7 +110,7 @@ export default function DiagnosisFlowPage() {
           <div className="text-center space-y-6">
             <div className="flex justify-center">
               <div className="relative w-20 h-20 rounded-full bg-gradient-to-br from-aibo-blue to-aibo-signal shadow-2xl flex items-center justify-center">
-                <span className="text-4xl">🎯</span>
+                <span className="text-4xl">▲</span>
               </div>
             </div>
             <div>

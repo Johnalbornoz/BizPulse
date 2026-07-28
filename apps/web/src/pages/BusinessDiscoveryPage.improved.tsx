@@ -93,10 +93,10 @@ const INITIAL_DATA: DiscoveryData = {
 }
 
 const STEPS = [
-  { number: 1, title: 'Datos de Empresa', icon: '🏢' },
-  { number: 2, title: 'Estrategia & Cultura', icon: '🎯' },
+  { number: 1, title: 'Datos de Empresa', icon: '■' },
+  { number: 2, title: 'Estrategia & Cultura', icon: '▲' },
   { number: 3, title: 'Modelo de Negocio', icon: '💼' },
-  { number: 4, title: 'Tecnología', icon: '⚙️' }
+  { number: 4, title: 'Tecnología', icon: '◊' }
 ]
 
 type StepNumber = 1 | 2 | 3 | 4

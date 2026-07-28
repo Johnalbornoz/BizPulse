@@ -59,7 +59,7 @@ export default function LoginPage() {
           <div className="text-center space-y-8">
             <div className="space-y-4">
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-aibo-blue to-aibo-signal shadow-lg">
-                <span className="text-3xl">📊</span>
+                <span className="text-3xl">◆</span>
               </div>
               <TypeformHeading>Bienvenido a BizPulse</TypeformHeading>
               <p className="text-xl text-aibo-slate leading-relaxed">

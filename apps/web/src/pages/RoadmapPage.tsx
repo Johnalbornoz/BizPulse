@@ -146,7 +146,7 @@ export default function RoadmapPage() {
         {/* Strategic (12-24m) */}
         {(phases.strategic_12m.length > 0 || phases.strategic_24m.length > 0) && (
           <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-aibo-navy">
-            <h2 className="text-xl font-bold text-aibo-navy mb-4">🎯 Strategic (12-24 meses)</h2>
+            <h2 className="text-xl font-bold text-aibo-navy mb-4">▲ Strategic (12-24 meses)</h2>
             <div className="space-y-3">
               {[...phases.strategic_12m, ...phases.strategic_24m].map(init => (
                 <div key={init.id} className="p-4 bg-aibo-cloud rounded-lg">

@@ -82,9 +82,9 @@ export default function ResultsDashboardPage() {
 
   const faseLabels: Record<string, string> = {
     quick_wins_30d: '🚀 Quick Wins (30 días)',
-    medium_90d: '📈 Medium (90 días)',
-    medium_180d: '📊 Medium (180 días)',
-    strategic_12m: '🎯 Strategic (12 meses)',
+    medium_90d: '↗ Medium (90 días)',
+    medium_180d: '◆ Medium (180 días)',
+    strategic_12m: '▲ Strategic (12 meses)',
     strategic_24m: '🏆 Strategic (24 meses)'
   }
 
@@ -190,10 +190,10 @@ export default function ResultsDashboardPage() {
       {/* Action Buttons */}
       <div className="flex gap-4 justify-center pb-8">
         <button className="px-6 py-3 bg-aibo-blue text-white font-semibold rounded-lg hover:bg-aibo-blue-light transition-colors shadow-lg">
-          📊 Descargar Reporte
+          ◆ Descargar Reporte
         </button>
         <button className="px-6 py-3 bg-aibo-navy text-white font-semibold rounded-lg hover:bg-aibo-ink transition-colors shadow-lg">
-          📋 Ver Propuesta de Consultoría
+          ▬ Ver Propuesta de Consultoría
         </button>
       </div>
     </div>
