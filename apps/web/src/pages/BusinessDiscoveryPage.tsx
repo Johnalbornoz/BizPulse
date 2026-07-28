@@ -326,14 +326,14 @@ export default function BusinessDiscoveryPage() {
           <div className="space-y-6">
             <h2 className="text-2xl font-bold text-black font-display">Estrategia & Cultura</h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-black mb-2">Misión</label>
                 <textarea
                   value={data.mision}
                   onChange={e => handleChange('mision', e.target.value)}
                   rows={3}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
+                  className="w-full px-0 py-2 border-b border-gray-300 bg-transparent focus:outline-none focus:border-black text-black"
                   placeholder="¿Cuál es la misión de la empresa?"
                 />
               </div>
@@ -344,7 +344,7 @@ export default function BusinessDiscoveryPage() {
                   value={data.vision}
                   onChange={e => handleChange('vision', e.target.value)}
                   rows={3}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
+                  className="w-full px-0 py-2 border-b border-gray-300 bg-transparent focus:outline-none focus:border-black text-black"
                   placeholder="¿Cuál es la visión a futuro?"
                 />
               </div>
@@ -355,7 +355,7 @@ export default function BusinessDiscoveryPage() {
                   value={data.proposito}
                   onChange={e => handleChange('proposito', e.target.value)}
                   rows={3}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
+                  className="w-full px-0 py-2 border-b border-gray-300 bg-transparent focus:outline-none focus:border-black text-black"
                   placeholder="¿Cuál es el propósito o razón de ser?"
                 />
               </div>
@@ -366,18 +366,18 @@ export default function BusinessDiscoveryPage() {
                   value={data.objetivos_estrategicos}
                   onChange={e => handleChange('objetivos_estrategicos', e.target.value)}
                   rows={3}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
+                  className="w-full px-0 py-2 border-b border-gray-300 bg-transparent focus:outline-none focus:border-black text-black"
                   placeholder="Objetivos clave para los próximos años"
                 />
               </div>
 
-              <div className="md:col-span-2">
+              <div>
                 <label className="block text-sm font-medium text-black mb-2">OKRs (Objetivos y Resultados Clave)</label>
                 <textarea
                   value={data.okrs}
                   onChange={e => handleChange('okrs', e.target.value)}
                   rows={3}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
+                  className="w-full px-0 py-2 border-b border-gray-300 bg-transparent focus:outline-none focus:border-black text-black"
                   placeholder="Describe los OKRs principales"
                 />
               </div>
@@ -388,7 +388,7 @@ export default function BusinessDiscoveryPage() {
                   value={data.cultura}
                   onChange={e => handleChange('cultura', e.target.value)}
                   rows={2}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
+                  className="w-full px-0 py-2 border-b border-gray-300 bg-transparent focus:outline-none focus:border-black text-black"
                   placeholder="¿Cómo describirías la cultura?"
                 />
               </div>
@@ -399,7 +399,7 @@ export default function BusinessDiscoveryPage() {
                   value={data.valores}
                   onChange={e => handleChange('valores', e.target.value)}
                   rows={2}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
+                  className="w-full px-0 py-2 border-b border-gray-300 bg-transparent focus:outline-none focus:border-black text-black"
                   placeholder="Valores que rigen la empresa"
                 />
               </div>
@@ -410,7 +410,7 @@ export default function BusinessDiscoveryPage() {
                   value={data.liderazgo}
                   onChange={e => handleChange('liderazgo', e.target.value)}
                   rows={2}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
+                  className="w-full px-0 py-2 border-b border-gray-300 bg-transparent focus:outline-none focus:border-black text-black"
                   placeholder="Descripción del equipo de liderazgo"
                 />
               </div>
@@ -421,7 +421,7 @@ export default function BusinessDiscoveryPage() {
                   value={data.innovacion}
                   onChange={e => handleChange('innovacion', e.target.value)}
                   rows={2}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
+                  className="w-full px-0 py-2 border-b border-gray-300 bg-transparent focus:outline-none focus:border-black text-black"
                   placeholder="¿Cómo innova la empresa?"
                 />
               </div>
@@ -432,18 +432,18 @@ export default function BusinessDiscoveryPage() {
                   value={data.colaboracion}
                   onChange={e => handleChange('colaboracion', e.target.value)}
                   rows={2}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
+                  className="w-full px-0 py-2 border-b border-gray-300 bg-transparent focus:outline-none focus:border-black text-black"
                   placeholder="Cómo colaboran los equipos"
                 />
               </div>
 
-              <div className="md:col-span-2">
+              <div>
                 <label className="block text-sm font-medium text-black mb-2">Gestión del Cambio</label>
                 <textarea
                   value={data.gestion_cambio}
                   onChange={e => handleChange('gestion_cambio', e.target.value)}
                   rows={2}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
+                  className="w-full px-0 py-2 border-b border-gray-300 bg-transparent focus:outline-none focus:border-black text-black"
                   placeholder="¿Cómo maneja la empresa el cambio?"
                 />
               </div>
@@ -456,13 +456,13 @@ export default function BusinessDiscoveryPage() {
           <div className="space-y-6">
             <h2 className="text-2xl font-bold text-black font-display">Modelo de Negocio</h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-black mb-2">Industria *</label>
                 <select
                   value={data.industria}
                   onChange={e => handleChange('industria', e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
+                  className="w-full px-0 py-2 border-b border-gray-300 bg-transparent focus:outline-none focus:border-black text-black"
                 >
                   <option value="">Selecciona</option>
                   <option value="BPO">BPO / Contact Center</option>
@@ -480,7 +480,7 @@ export default function BusinessDiscoveryPage() {
                   type="text"
                   value={data.segmento}
                   onChange={e => handleChange('segmento', e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
+                  className="w-full px-0 py-2 border-b border-gray-300 bg-transparent focus:outline-none focus:border-black text-black"
                   placeholder="Ej: Enterprise, SMB, Startup"
                 />
               </div>
@@ -491,7 +491,7 @@ export default function BusinessDiscoveryPage() {
                   type="text"
                   value={data.subindustria}
                   onChange={e => handleChange('subindustria', e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
+                  className="w-full px-0 py-2 border-b border-gray-300 bg-transparent focus:outline-none focus:border-black text-black"
                   placeholder="Ej: Customer Service, Tech Support"
                 />
               </div>
@@ -502,40 +502,40 @@ export default function BusinessDiscoveryPage() {
                   type="text"
                   value={data.tipo_empresa}
                   onChange={e => handleChange('tipo_empresa', e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
+                  className="w-full px-0 py-2 border-b border-gray-300 bg-transparent focus:outline-none focus:border-black text-black"
                   placeholder="Ej: Privada, Pública, Joint Venture"
                 />
               </div>
 
-              <div className="md:col-span-2">
+              <div>
                 <label className="block text-sm font-medium text-black mb-2">Tipo de Operación</label>
                 <textarea
                   value={data.tipo_operacion}
                   onChange={e => handleChange('tipo_operacion', e.target.value)}
                   rows={2}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
+                  className="w-full px-0 py-2 border-b border-gray-300 bg-transparent focus:outline-none focus:border-black text-black"
                   placeholder="Ej: Operaciones propias, Outsourcing, Híbrido"
                 />
               </div>
 
-              <div className="md:col-span-2">
+              <div>
                 <label className="block text-sm font-medium text-black mb-2">Oferta (Productos/Servicios/Marcas)</label>
                 <textarea
                   value={data.oferta}
                   onChange={e => handleChange('oferta', e.target.value)}
                   rows={2}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
+                  className="w-full px-0 py-2 border-b border-gray-300 bg-transparent focus:outline-none focus:border-black text-black"
                   placeholder="¿Qué ofrece la empresa?"
                 />
               </div>
 
-              <div className="md:col-span-2">
+              <div>
                 <label className="block text-sm font-medium text-black mb-2">Propuesta de Valor</label>
                 <textarea
                   value={data.propuesta_valor}
                   onChange={e => handleChange('propuesta_valor', e.target.value)}
                   rows={2}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
+                  className="w-full px-0 py-2 border-b border-gray-300 bg-transparent focus:outline-none focus:border-black text-black"
                   placeholder="¿Qué valor único ofreces?"
                 />
               </div>
@@ -546,7 +546,7 @@ export default function BusinessDiscoveryPage() {
                   type="text"
                   value={data.clientes}
                   onChange={e => handleChange('clientes', e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
+                  className="w-full px-0 py-2 border-b border-gray-300 bg-transparent focus:outline-none focus:border-black text-black"
                   placeholder="Ej: B2B, B2C, Enterprise, Government"
                 />
               </div>
@@ -557,7 +557,7 @@ export default function BusinessDiscoveryPage() {
                   type="text"
                   value={data.canal_adquisicion}
                   onChange={e => handleChange('canal_adquisicion', e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
+                  className="w-full px-0 py-2 border-b border-gray-300 bg-transparent focus:outline-none focus:border-black text-black"
                   placeholder="Ej: Ventas directas, Marketing, Partnerships"
                 />
               </div>
@@ -567,7 +567,7 @@ export default function BusinessDiscoveryPage() {
                 <select
                   value={data.crm_quality}
                   onChange={e => handleChange('crm_quality', e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
+                  className="w-full px-0 py-2 border-b border-gray-300 bg-transparent focus:outline-none focus:border-black text-black"
                 >
                   <option value="">Selecciona</option>
                   <option value="Excelente">Excelente</option>
@@ -584,7 +584,7 @@ export default function BusinessDiscoveryPage() {
                   type="text"
                   value={data.metricas_comerciales}
                   onChange={e => handleChange('metricas_comerciales', e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
+                  className="w-full px-0 py-2 border-b border-gray-300 bg-transparent focus:outline-none focus:border-black text-black"
                   placeholder="Ej: CAC, LTV, Conversión, Ciclo de venta"
                 />
               </div>
@@ -615,7 +615,7 @@ export default function BusinessDiscoveryPage() {
                     type="text"
                     value={data.crm_tipo}
                     onChange={e => handleChange('crm_tipo', e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black text-sm"
+                    className="w-full px-0 py-2 border-b border-gray-300 bg-transparent focus:outline-none focus:border-black text-black text-sm"
                     placeholder="Ej: Salesforce, HubSpot, Pipedrive"
                   />
                 )}
@@ -638,7 +638,7 @@ export default function BusinessDiscoveryPage() {
                     type="text"
                     value={data.erp_tipo}
                     onChange={e => handleChange('erp_tipo', e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black text-sm"
+                    className="w-full px-0 py-2 border-b border-gray-300 bg-transparent focus:outline-none focus:border-black text-black text-sm"
                     placeholder="Ej: SAP, Oracle, NetSuite"
                   />
                 )}
@@ -703,7 +703,7 @@ export default function BusinessDiscoveryPage() {
                     value={data.automatizacion_desc}
                     onChange={e => handleChange('automatizacion_desc', e.target.value)}
                     rows={2}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black text-sm"
+                    className="w-full px-0 py-2 border-b border-gray-300 bg-transparent focus:outline-none focus:border-black text-black text-sm"
                     placeholder="Describe qué procesos están automatizados"
                   />
                 )}
