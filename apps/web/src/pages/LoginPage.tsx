@@ -55,8 +55,7 @@ export default function LoginPage() {
   return (
     <div className="relative min-h-screen bg-white overflow-hidden">
       <HeroSection />
-      <div className="relative z-10">
-      <TypeformContainer gradient="neutral">
+      <div className="relative z-10 min-h-screen flex items-center justify-center py-24">
       {/* Welcome Step */}
       {step === 'welcome' && (
         <div className="text-center space-y-12 px-4">
@@ -87,118 +86,123 @@ export default function LoginPage() {
 
       {/* Email Step */}
       {step === 'email' && (
-        <TypeformCard>
-          <div className="space-y-8">
-            <TypeformHeading subtitle="Usaremos esto para acceder a tu cuenta">
+        <div className="space-y-8 px-4 max-w-2xl mx-auto">
+          <div className="text-center space-y-6">
+            <h2 className="text-4xl md:text-5xl font-semibold font-display text-black">
               ¿Cuál es tu email?
-            </TypeformHeading>
-
-            <div
-              onKeyPress={(e) => e.key === 'Enter' && handleEmailNext()}
-            >
-              <TypeformInput
-                type="email"
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value)
-                  setError('')
-                }}
-                placeholder="tu@email.com"
-                error={error}
-                autoFocus
-              />
-            </div>
-
-            <div className="flex gap-4">
-              <TypeformButton
-                variant="outline"
-                size="lg"
-                onClick={handleBack}
-                fullWidth
-              >
-                Atrás
-              </TypeformButton>
-              <TypeformButton
-                size="lg"
-                onClick={handleEmailNext}
-                fullWidth
-              >
-                Continuar →
-              </TypeformButton>
-            </div>
+            </h2>
+            <p className="text-lg text-gray-600 font-light">
+              Usaremos esto para acceder a tu cuenta
+            </p>
           </div>
-        </TypeformCard>
+
+          <div
+            onKeyPress={(e) => e.key === 'Enter' && handleEmailNext()}
+            className="space-y-6"
+          >
+            <TypeformInput
+              type="email"
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value)
+                setError('')
+              }}
+              placeholder="tu@email.com"
+              error={error}
+              autoFocus
+            />
+          </div>
+
+          <div className="flex gap-4 pt-4">
+            <TypeformButton
+              variant="outline"
+              size="lg"
+              onClick={handleBack}
+              fullWidth
+            >
+              Atrás
+            </TypeformButton>
+            <TypeformButton
+              size="lg"
+              onClick={handleEmailNext}
+              fullWidth
+            >
+              Continuar →
+            </TypeformButton>
+          </div>
+        </div>
       )}
 
       {/* Password Step */}
       {step === 'password' && (
-        <TypeformCard>
-          <div className="space-y-8">
-            <TypeformHeading subtitle="Verifica tu identidad para continuar">
+        <div className="space-y-8 px-4 max-w-2xl mx-auto">
+          <div className="text-center space-y-6">
+            <h2 className="text-4xl md:text-5xl font-semibold font-display text-black">
               ¿Cuál es tu contraseña?
-            </TypeformHeading>
-
-            <div
-              onKeyPress={(e) => e.key === 'Enter' && !loading && handleSubmit()}
-            >
-              <TypeformInput
-                type="password"
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value)
-                  setError('')
-                }}
-                placeholder="••••••••"
-                error={error}
-                autoFocus
-              />
-            </div>
-
-            <div className="flex gap-4">
-              <TypeformButton
-                variant="outline"
-                size="lg"
-                onClick={handleBack}
-                disabled={loading}
-                fullWidth
-              >
-                Atrás
-              </TypeformButton>
-              <TypeformButton
-                size="lg"
-                onClick={handleSubmit}
-                loading={loading}
-                fullWidth
-              >
-                Iniciar sesión
-              </TypeformButton>
-            </div>
+            </h2>
+            <p className="text-lg text-gray-600 font-light">
+              Verifica tu identidad para continuar
+            </p>
           </div>
-        </TypeformCard>
+
+          <div
+            onKeyPress={(e) => e.key === 'Enter' && !loading && handleSubmit()}
+            className="space-y-6"
+          >
+            <TypeformInput
+              type="password"
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value)
+                setError('')
+              }}
+              placeholder="••••••••"
+              error={error}
+              autoFocus
+            />
+          </div>
+
+          <div className="flex gap-4 pt-4">
+            <TypeformButton
+              variant="outline"
+              size="lg"
+              onClick={handleBack}
+              disabled={loading}
+              fullWidth
+            >
+              Atrás
+            </TypeformButton>
+            <TypeformButton
+              size="lg"
+              onClick={handleSubmit}
+              loading={loading}
+              fullWidth
+            >
+              Iniciar sesión
+            </TypeformButton>
+          </div>
+        </div>
       )}
 
       {/* Loading Step */}
       {step === 'loading' && (
-        <TypeformCard>
-          <div className="text-center space-y-8 py-8">
-            <div className="flex justify-center">
-              <div className="relative w-16 h-16">
-                <div className="absolute inset-0 rounded-full border-4 border-aibo-mist"></div>
-                <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-aibo-blue border-r-aibo-signal animate-spin"></div>
-              </div>
-            </div>
-            <div className="space-y-2">
-              <p className="text-xl font-semibold text-aibo-navy">
-                Validando tu cuenta
-              </p>
-              <p className="text-aibo-slate">
-                Un momento mientras verificamos tus credenciales...
-              </p>
+        <div className="text-center space-y-8 py-8 px-4">
+          <div className="flex justify-center">
+            <div className="relative w-16 h-16">
+              <div className="absolute inset-0 rounded-full border-4 border-gray-300"></div>
+              <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-sky-400 border-r-cyan-400 animate-spin"></div>
             </div>
           </div>
-        </TypeformCard>
+          <div className="space-y-2">
+            <p className="text-2xl font-semibold text-black">
+              Validando tu cuenta
+            </p>
+            <p className="text-gray-600">
+              Un momento mientras verificamos tus credenciales...
+            </p>
+          </div>
+        </div>
       )}
-      </TypeformContainer>
       </div>
     </div>
   )
