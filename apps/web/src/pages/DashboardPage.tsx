@@ -21,7 +21,8 @@ export default function DashboardPage() {
     try {
       const currentToken = localStorage.getItem('token')
       console.log('Token:', currentToken ? 'present' : 'missing')
-      const response = await fetch('/api/diagnosticos', {
+      const apiUrl = import.meta.env.VITE_API_URL || '/api'
+      const response = await fetch(`${apiUrl}/diagnosticos`, {
         headers: { 'Authorization': `Bearer ${currentToken}` }
       })
       if (response.ok) {
@@ -37,7 +38,8 @@ export default function DashboardPage() {
   const createNewDiagnostico = async () => {
     setLoading(true)
     try {
-      const response = await fetch('/api/diagnosticos', {
+      const apiUrl = import.meta.env.VITE_API_URL || '/api'
+      const response = await fetch(`${apiUrl}/diagnosticos`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
