@@ -70,7 +70,7 @@ export default function LoginPage() {
               </p>
             </div>
             <p className="text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto font-light">
-              Análisis profundo en dos ejes: estado del arte vs. segmento/competencia
+              Análisis profundo del estado actual del negocio y su comparación vs. segmento/competencia
             </p>
           </div>
 
