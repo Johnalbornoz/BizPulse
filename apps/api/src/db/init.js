@@ -2,6 +2,7 @@ import pool from '../config/database.js'
 import { createTables } from './schema.js'
 import { seedData } from './seeds.js'
 import { seedPreguntas } from './seedPreguntas.js'
+import { seedAdminData } from './seedAdmin.js'
 
 export async function initializeDatabase() {
   try {
@@ -19,6 +20,9 @@ export async function initializeDatabase() {
 
     // Seed preguntas
     await seedPreguntas()
+
+    // Seed admin data
+    await seedAdminData()
 
     console.log('✓ All data seeded')
   } catch (error) {

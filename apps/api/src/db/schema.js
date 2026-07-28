@@ -27,6 +27,7 @@ export async function createTables() {
         nombre VARCHAR(255) NOT NULL,
         rol VARCHAR(50) DEFAULT 'Consultor',
         tenant_id INTEGER REFERENCES tenants(id),
+        empresa_id INTEGER REFERENCES empresas(id),
         estado VARCHAR(50) DEFAULT 'activo',
         created_at TIMESTAMP DEFAULT NOW(),
         updated_at TIMESTAMP DEFAULT NOW()
@@ -163,10 +164,25 @@ export async function createTables() {
       )
     `)
 
+    // Segmentos de Negocio
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS segmentos_negocio (
+        id SERIAL PRIMARY KEY,
+        tenant_id INTEGER REFERENCES tenants(id),
+        nombre VARCHAR(255) NOT NULL,
+        descripcion TEXT,
+        industria_principal VARCHAR(100),
+        estado VARCHAR(50) DEFAULT 'activo',
+        created_at TIMESTAMP DEFAULT NOW(),
+        updated_at TIMESTAMP DEFAULT NOW()
+      )
+    `)
+
     // Benchmarks Segmento
     await client.query(`
       CREATE TABLE IF NOT EXISTS benchmarks_segmento (
         id SERIAL PRIMARY KEY,
+        segmento_id INTEGER REFERENCES segmentos_negocio(id),
         pilar_id INTEGER REFERENCES pilares(id),
         industria VARCHAR(100),
         subindustria VARCHAR(100),

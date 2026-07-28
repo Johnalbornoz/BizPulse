@@ -13,6 +13,10 @@ import ValidationHITLPage from './pages/ValidationHITLPage'
 import RoadmapPage from './pages/RoadmapPage'
 import FinancialImpactPage from './pages/FinancialImpactPage'
 import ResultsDashboardPage from './pages/ResultsDashboardPage'
+import AdminDashboard from './pages/admin/AdminDashboard'
+import AdminEmpresas from './pages/admin/AdminEmpresas'
+import AdminUsuarios from './pages/admin/AdminUsuarios'
+import AdminSegmentos from './pages/admin/AdminSegmentos'
 
 function App() {
   const { isAuthenticated, checkAuth } = useAuthStore()
@@ -40,20 +44,29 @@ function App() {
         {!isAuthenticated ? (
           <Route path="*" element={<LoginPage />} />
         ) : (
-          <Route element={<DashboardLayout />}>
-            <Route path="/" element={<DashboardPage />} />
-            <Route path="/diagnosis/:diagnosticoId" element={<DiagnosisFlowPage />} />
-            <Route path="/discovery/:diagnosticoId" element={<BusinessDiscoveryPage />} />
-            <Route path="/classification/:diagnosticoId" element={<ClassificationPage />} />
-            <Route path="/framework/:diagnosticoId" element={<FrameworkPage />} />
-            <Route path="/assessment/:diagnosticoId" element={<AssessmentPage />} />
-            <Route path="/validation/:diagnosticoId" element={<ValidationHITLPage />} />
-            <Route path="/financial/:diagnosticoId" element={<FinancialImpactPage />} />
-            <Route path="/roadmap/:diagnosticoId" element={<RoadmapPage />} />
-            <Route path="/proposal/:diagnosticoId" element={<ResultsDashboardPage />} />
-            <Route path="/results/:diagnosticoId" element={<ResultsDashboardPage />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Route>
+          <>
+            {/* Admin Routes */}
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/empresas" element={<AdminEmpresas />} />
+            <Route path="/admin/usuarios" element={<AdminUsuarios />} />
+            <Route path="/admin/segmentos" element={<AdminSegmentos />} />
+
+            {/* Diagnosis Routes */}
+            <Route element={<DashboardLayout />}>
+              <Route path="/" element={<DashboardPage />} />
+              <Route path="/diagnosis/:diagnosticoId" element={<DiagnosisFlowPage />} />
+              <Route path="/discovery/:diagnosticoId" element={<BusinessDiscoveryPage />} />
+              <Route path="/classification/:diagnosticoId" element={<ClassificationPage />} />
+              <Route path="/framework/:diagnosticoId" element={<FrameworkPage />} />
+              <Route path="/assessment/:diagnosticoId" element={<AssessmentPage />} />
+              <Route path="/validation/:diagnosticoId" element={<ValidationHITLPage />} />
+              <Route path="/financial/:diagnosticoId" element={<FinancialImpactPage />} />
+              <Route path="/roadmap/:diagnosticoId" element={<RoadmapPage />} />
+              <Route path="/proposal/:diagnosticoId" element={<ResultsDashboardPage />} />
+              <Route path="/results/:diagnosticoId" element={<ResultsDashboardPage />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Route>
+          </>
         )}
       </Routes>
     </BrowserRouter>

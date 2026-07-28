@@ -56,3 +56,25 @@ export async function updateEmpresa(id, tenantId, data) {
 
   return result.rows[0]
 }
+
+export async function deleteEmpresa(id, tenantId) {
+  const result = await pool.query(
+    'DELETE FROM empresas WHERE id = $1 AND tenant_id = $2 RETURNING id',
+    [id, tenantId]
+  )
+  return result.rows[0]
+}
+
+export async function getEmpresasStats(tenantId) {
+  const result = await pool.query(
+    `SELECT
+      COUNT(*) as total,
+      COUNT(DISTINCT pais) as paises,
+      COUNT(DISTINCT industria) as industrias,
+      AVG(empleados)::INT as empleados_promedio,
+      SUM(facturacion_usd)::DECIMAL as facturacion_total_usd
+     FROM empresas WHERE tenant_id = $1`,
+    [tenantId]
+  )
+  return result.rows[0]
+}
