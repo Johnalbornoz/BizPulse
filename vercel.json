@@ -1,6 +1,9 @@
 {
-  "buildCommand": "npm install && cd apps/web && npm run build",
+  "buildCommand": "cd apps/web && npm install && npm run build",
   "outputDirectory": "apps/web/dist",
-  "installCommand": "npm install --legacy-peer-deps",
-  "framework": "vite"
+  "installCommand": "echo 'Skipping root install'",
+  "framework": "vite",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
 }
