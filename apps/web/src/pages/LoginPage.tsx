@@ -59,18 +59,22 @@ export default function LoginPage() {
       <TypeformContainer gradient="neutral">
       {/* Welcome Step */}
       {step === 'welcome' && (
-        <TypeformCard>
-          <div className="text-center space-y-8">
-            <div className="space-y-4">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-aibo-blue to-aibo-signal shadow-lg">
-                
-              </div>
-              <TypeformHeading>Bienvenido a BizPulse</TypeformHeading>
-              <p className="text-xl text-aibo-slate leading-relaxed">
-                Diagnóstico de Excelencia Empresarial en dos ejes
+        <div className="text-center space-y-12 px-4">
+          <div className="space-y-8">
+            <div className="space-y-2">
+              <h1 className="text-6xl md:text-7xl font-bold font-display text-black tracking-tight">
+                BizPulse
+              </h1>
+              <p className="text-2xl md:text-3xl font-light text-gray-700">
+                Diagnóstico de Excelencia Empresarial
               </p>
             </div>
+            <p className="text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto font-light">
+              Análisis profundo en dos ejes: estado del arte vs. segmento/competencia
+            </p>
+          </div>
 
+          <div className="pt-8">
             <TypeformButton
               size="lg"
               onClick={() => setStep('email')}
@@ -78,7 +82,7 @@ export default function LoginPage() {
               Comenzar →
             </TypeformButton>
           </div>
-        </TypeformCard>
+        </div>
       )}
 
       {/* Email Step */}
