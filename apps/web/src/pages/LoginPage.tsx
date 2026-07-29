@@ -58,28 +58,32 @@ export default function LoginPage() {
       <div className="relative z-10 min-h-screen flex items-center justify-center py-24">
       {/* Welcome Step */}
       {step === 'welcome' && (
-        <div className="text-center space-y-12 px-4">
-          <div className="space-y-8">
-            <div className="space-y-2">
-              <h1 className="text-6xl md:text-7xl font-bold font-display text-black tracking-tight">
+        <div className="w-full h-full flex items-center justify-start px-12 md:px-20">
+          <div className="space-y-8 max-w-2xl">
+            <div className="space-y-4">
+              <h1 className="text-7xl md:text-8xl font-bold font-display text-black tracking-tighter leading-none">
                 BizPulse
               </h1>
-              <p className="text-2xl md:text-3xl font-light text-gray-700">
+              <div className="h-1 w-32 bg-gradient-to-r from-cyan-500 to-transparent" />
+            </div>
+
+            <div className="space-y-6">
+              <p className="text-3xl md:text-4xl font-light text-gray-800 leading-snug">
                 Diagnóstico de Excelencia Empresarial
               </p>
+              <p className="text-lg text-gray-700 leading-relaxed font-light max-w-xl">
+                Análisis profundo del estado actual del negocio y su comparación vs. segmento/competencia
+              </p>
             </div>
-            <p className="text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto font-light">
-              Análisis profundo del estado actual del negocio y su comparación vs. segmento/competencia
-            </p>
-          </div>
 
-          <div className="pt-8">
-            <TypeformButton
-              size="lg"
-              onClick={() => setStep('email')}
-            >
-              Comenzar →
-            </TypeformButton>
+            <div className="pt-12">
+              <TypeformButton
+                size="lg"
+                onClick={() => setStep('email')}
+              >
+                Comenzar →
+              </TypeformButton>
+            </div>
           </div>
         </div>
       )}
